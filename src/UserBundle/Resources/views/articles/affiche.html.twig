@@ -1,0 +1,130 @@
+{% extends "@User/Default/index.html.twig" %}
+ {% block stylesheets %}
+     <link rel="stylesheet" href="https://bootswatch.com/4/litera/bootstrap.min.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
+           integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"/>
+ {% endblock %}
+{% block slide %}
+    <div class="inner_page-banner one-img">
+    </div>
+    <div class="using-border py-3">
+        <div class="inner_breadcrumb  ml-4">
+            <ul class="short_ls">
+                <li>
+                    <a href="#">Index</a>
+                    <span>/</span>
+                </li>
+                <li>Catalogue de nos articles</li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <section class="contact py-lg-4 py-md-3 py-sm-3 py-3">
+        <div class="container-fluid py-lg-5 py-md-4 py-sm-4 py-3">
+            <h3 class="title text-center mb-lg-5 mb-md-4 mb-sm-4 mb-3">Articles </h3>
+            <div class="row" style="margin-bottom: 20px">
+                <div class="col-lg-6 offset-lg-3">
+                    <div class="card">
+                        <div class="card-header">
+                            Chercher articles
+                        </div>
+                        <div class="card-body">
+                            <form action="" method="get">
+                                <div class="row">
+                                    <div class="form-group col-lg-8">
+                                        <label for="famille">Famille</label>
+                                        <select class="form-control" name="famille" id="famille" required>
+                                            <option value="">--Séléctionnez--</option>
+                                            {% for famille in familles %}
+                                                <option value="{{ famille.codeFamille }}">{{ famille.nomFamille }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-lg-4 text-left">
+                                        <label style="color: white">&nbsp; chercher</label><br>
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i>
+                                            Chercher
+                                        </button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="left-ads-display col-lg-12">
+                    <div class="row">
+                        {% for article in articles %}
+                            <div class="col-lg-4 col-md-6 col-sm-6 product-men women_two">
+                                <div class="product-toys-info">
+                                    <div class="men-pro-item">
+                                        <div class="men-thumb-item">
+                                            <img class="img-fluid rounded img-responsive" style="height: 300px"
+                                                 width="200px" src="{{ asset(article.img) }}">
+
+
+
+                                            <span class="product-new-top">New</span>
+                                        </div>
+                                        <div class="item-info-product">
+                                            <div class="info-product-price">
+                                                <div class="grid_meta">
+                                                    <div class="product_price">
+                                                        <h4>
+                                                            <a style="font-size: 22px">{{ article.designation }}</a>
+                                                        </h4>
+                                                        <div class="grid-price mt-2">
+                                                            <span class="money ">{{ article.prixVente }} DT</span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="toys single-item hvr-outline-out">
+                                                    <form action="{{ path('ajout_panier') }}" method="post">
+                                                        <div style="width: 49%">
+                                                            <input type="hidden" name="refArticle"
+                                                                   value="{{ article.refArticle }}">
+                                                        quantité :    <input type="number" name="qte" value="" min="1"
+                                                                   class="form-control" required
+                                                                   style="width: 90px; display: inline">
+                                                        </div>
+                                                        <div style="width: 49%">
+                                                            <button type="submit" class="toys-cart ptoys-cart">
+                                                                <i class="fas fa-cart-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="col-lg-6 offset-lg-3">
+                                <div class="alert alert-warning" style="padding: 30px">
+                                    Aucaun article n'a été trouvé.
+                                </div>
+                            </div>
+                        {% endfor %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <div class="row" style="color: #d43f3a"> &nbsp;&nbsp;&nbsp;&nbsp;
+                            <div class="col-lg-12 text-center">
+                                {{ knp_pagination_render(articles) }}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+{% endblock %}

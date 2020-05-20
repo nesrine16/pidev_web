@@ -1,0 +1,5 @@
+Votre Commande est validée Mr/Mme {{ commande.user.prenomNom|title  }} avec Num de commande {{ commande.numCommande }}
+et montant Total: {{ commande.calculMontant }} DT
+<p>
+    Votre commande sera livrée le {{ commande.dateLivraison|date('d-m-Y') }}
+</p>

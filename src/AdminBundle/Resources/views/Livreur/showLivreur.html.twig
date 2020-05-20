@@ -1,0 +1,57 @@
+{% extends "@Admin/Default/back.html.twig" %}
+
+{% block body %}
+
+<div class="left-ads-display col-lg-12">
+    <div class="row">
+
+    <h3 style="color: cadetblue"> Liste des Livreurs:</h3>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        <table class=" table table-striped">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Ville</th>
+                <th>Téléphone</th>
+                <th>Suppression</th>
+                <th>Modification</th>
+            </tr>
+            </thead>
+            {% for livreur in livreurs %}
+
+                <tr>
+
+                    <td>{{ livreur.nom }}</td>
+                    <td>{{ livreur.prenom }}</td>
+                    <td>{{ livreur.ville }}</td>
+                    <td>{{ livreur.telephone }}</td>
+
+
+                    <td><a href="{{ path("remove_Livreur",{'id':livreur.id})}}"<i
+                                    class="fa fa-trash text-danger" ></i></td>
+
+
+                    <td><a href="{{ path("update_Livreur",{'id':livreur.id})}}"<i
+                                class="fa fa-edit text-success"></i></td>
+                </tr>
+            {% endfor %}
+
+        </table>
+
+
+    </div>
+
+
+
+    <div class="clearfix"></div>
+
+</div>
+
+
+</div>
+
+
+
+{% endblock %}

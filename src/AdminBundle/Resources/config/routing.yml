@@ -1,0 +1,37 @@
+user_admin_commande:
+    resource: "@AdminBundle/Resources/config/commande.yml"
+    prefix:   /commande
+
+admin_homepage:
+    path:     /back
+    defaults: { _controller: AdminBundle:Default:back }
+livreur_ajout:
+    path:     /ajoutlivreur
+    defaults: { _controller: AdminBundle:Livreur:ajoutLivreur }
+show_Livreur:
+    path:     /showlivreur
+    defaults: { _controller: AdminBundle:Livreur:showLivreur }
+remove_Livreur:
+    path:     /remove_Livreur
+    defaults: { _controller: AdminBundle:Livreur:RemoveLivreur }
+update_Livreur:
+    path:     /update_Livreur/{id}
+    defaults: { _controller: AdminBundle:Livreur:updateLivreur }
+fournisseur_ajout:
+    path:     /ajoutfournisseur
+    defaults: { _controller: AdminBundle:Fournisseur:ajoutFournisseur }
+show_Fournisseur:
+    path:     /showfournisseur
+    defaults: { _controller: AdminBundle:Fournisseur:showFournisseur }
+remove_Fournisseur:
+    path:     /remove_Fournisseur
+    defaults: { _controller: AdminBundle:Fournisseur:RemoveFournisseur }
+update_Fournisseur:
+    path:     /update_Fournisseur/{id}
+    defaults: { _controller: AdminBundle:Fournisseur:updateFournisseur }
+fournisseur_mail:
+    path:     /composemail/{id}
+    defaults: { _controller: AdminBundle:Fournisseur:mail }
+
+
+

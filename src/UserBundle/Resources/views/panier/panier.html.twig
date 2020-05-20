@@ -1,0 +1,110 @@
+{% extends "@User/Default/index.html.twig" %}
+
+ {% block stylesheets %}
+     <link rel="stylesheet" href="https://bootswatch.com/4/litera/bootstrap.min.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
+           integrity="sha256-+N4/V/SbAFiW1MPBCXnfnP9QSN3+Keu+NlB+0ev/YKQ=" crossorigin="anonymous"/>
+ {% endblock %}
+{% block slide %}
+    <div class="inner_page-banner one-img">
+    </div>
+    <div class="using-border py-3">
+        <div class="inner_breadcrumb  ml-4">
+            <ul class="short_ls">
+                <li>
+                    <a href="#">Index</a>
+                    <span>/</span>
+                </li>
+                <li>Catalogue de nos articles</li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <section class="checkout py-lg-4 py-md-3 py-sm-3 py-3">
+        <div class="container py-lg-5 py-md-4 py-sm-4 py-3">
+
+            <div class="privacy about">
+                {% if commande %}
+                    <h3>Chec<span>kout</span></h3>
+                    <div class="checkout-right">
+                        <h4>Votre panier contient: <span>{{ commande.lignes|length }} Articles</span></h4>
+                        <form action="{{ path('mise_a_jour_panier', {'id': commande.idcommande}) }}" method="post">
+                            <table class=" timetable_sub table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>img</th>
+                                    <th>Article</th>
+                                    <th>Quantité</th>
+                                    <th>Prix</th>
+                                    <th>Total</th>
+                                    <th>Supprimer</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for ligne in commande.lignes %}
+                                    <tr class="rem1">
+                                        <td>{{ loop.index }}</td>
+                                        <td><img class="img-fluid rounded" src="{{ asset(ligne.article.img) }}" style="height: 100px; width:105px"></td>
+                                        <td>{{ ligne.article.designation }}</td>
+                                        <td>
+                                            <input type="number" class="form-control" style="width: 90px" min="1"
+                                                   required
+                                                   value="{{ ligne.qte }}" name="{{ ligne.id }}">
+
+
+
+                                        </td>
+                                        <td> {{ ligne.article.prixVente }} DT</td>
+                                        <td>{{ ligne.totalLigne }} DT</td>
+                                        <td><a href="{{ path('supprimer_ligne_panier', {'id': ligne.id}) }}"><i
+                                                        class="fa fa-times text-danger"></i></a></td>
+                                    </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td colspan="7" class="text-right">
+                                        <button type="submit" class="btn btn-info"><i class="fa fa-save"></i> Mise à
+                                            jour
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="checkout-left">
+                        <div class="col-md-4 checkout-left-basket">
+                            <h4><a href="{{ path('article_listmy') }}" style="color: white">Continuer l'achat</a></h4>
+                            <ul>
+                                <li style="
+                                font-size: 22px; color: black; font-weight: bold">Total <i>-</i>
+                                    <span>{{ commande.calculMontant }} DT</span></li>
+                            </ul>
+                            <div>
+                                {% if commande.etat == 'en cours' %}
+                                    <a href="{{ path('valider_panier', {'id': commande.idcommande}) }}"
+                                       class="btn btn-success"><i class="fa fa-check"></i> Valider ma commande</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="clearfix"></div>
+                    </div>
+                {% else %}
+
+                    <div class="alert alert-warning">
+                        <h5>Votre panier est vide <a href="{{ path('article_listmy') }}">Continuer à
+                                acheter</a></h5>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- //top products -->
+        </div>
+    </section>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+{% endblock %}

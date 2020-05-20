@@ -1,0 +1,60 @@
+user_homepage:
+    path:     /front
+    defaults: { _controller: UserBundle:Default:index }
+livraison_ajout:
+    path:     /ajoutlivraison
+    defaults: { _controller: UserBundle:Livraison:ajout }
+livraison_listmy:
+    path:     /listmylivraison
+    defaults: { _controller: UserBundle:Livraison:listmy }
+livraison_delete:
+    path:     /deleteA/{id}
+    defaults: { _controller: UserBundle:livraison:delete }
+livraison_update:
+    path:     /updateA/{id}
+    defaults: { _controller: UserBundle:Livraison:update }
+
+article_listmy:
+    path:     /listarticle
+    defaults: { _controller: UserBundle:Articles:listmy }
+
+ajout_panier:
+    path:     /ajout_panier
+    defaults: { _controller: UserBundle:CommandeClient:ajouterAuPanier }
+
+voir_panier:
+    path:     /panier
+    defaults: { _controller: UserBundle:Panier:panier }
+
+supprimer_ligne_panier:
+    path:     /supprimer-ligne/{id}
+    defaults: { _controller: UserBundle:Panier:supprimerLigne }
+
+mise_a_jour_panier:
+    path:     /mise-a-jour-panier/{id}
+    defaults: { _controller: UserBundle:Panier:miseAjourPanier }
+
+valider_panier:
+    path:     /valider-panier/{id}
+    defaults: { _controller: UserBundle:Panier:valider }
+
+voir_commande_apres_validation:
+    path:     /voir-commande/{id}
+    defaults: { _controller: UserBundle:Panier:voirCommande }
+
+map:
+    path:     /map
+    defaults: { _controller: UserBundle:Default:map }
+list_art:
+    path:     /list
+    defaults: { _controller: UserBundle:Articles:test }
+
+
+list_art_par_famille:
+    path:     /listfamille/{famille}
+    defaults: { _controller: UserBundle:Articles:recherFamille }
+
+
+commande:
+    path:     /commandemobile
+    defaults: { _controller: UserBundle:Commande:commande }

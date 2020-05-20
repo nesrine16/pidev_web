@@ -1,0 +1,55 @@
+{% extends "@Admin/Default/back.html.twig" %}
+
+{% block body %}
+
+<div class="left-ads-display col-lg-12">
+    <div class="row">
+
+        <h3 style="color: cadetblue"> Liste des Fournisseurs: </h3>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        <table class=" table table-striped">
+            <thead>
+            <tr>
+                <th>Cin</th>
+                <th>Email</th>
+                <th>Adresse</th>
+                <th>Téléphone</th>
+                <th>Fax</th>
+                <th>Nom de la societe</th>
+                <th>Suppression</th>
+                <th>Modification</th>
+                <th>Répondre par email</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for fournisseur in fournisseurs %}
+
+                <tr>
+
+                    <td>{{ fournisseur.cin }}</td>
+                    <td>{{ fournisseur.email }}</td>
+                    <td>{{ fournisseur.adresse }}</td>
+                    <td>{{ fournisseur.telephone }}</td>
+                    <td>{{ fournisseur.fax }}</td>
+                    <td>{{ fournisseur.nomSociete }}</td>
+
+
+                    <td><a href="{{ path("remove_Fournisseur",{'id':fournisseur.id})}}"><i
+                                    class="fa fa-trash text-danger" ></i> </a></td>
+                    <td><a href="{{ path("update_Fournisseur",{'id':fournisseur.id})}}"><i
+                                    class="fa fa-edit text-success"></i></a></td>
+                    <th><a href="{{ path('fournisseur_mail',{'id':fournisseur.id}) }}" onclick="return confirm('envoyer un mail ?')"><i class="fa fa-envelope"></i></a></th>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="clearfix"></div>
+</div>
+</div>
+{% endblock %}

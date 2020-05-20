@@ -1,0 +1,62 @@
+{% extends "@Admin/Default/back.html.twig" %}
+
+{% block body %}
+    <div class="left-ads-display col-lg-12">
+        <div class="row">
+
+            <table class=" table table-striped">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Client</th>
+                    <th>Num</th>
+                    <th>Date</th>
+                    <th>Montant</th>
+                    <th>Type</th>
+                    <th>Date livraison</th>
+                    <th>Etat</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for commande in commandes %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('admin_commande_show', { 'id_commande': commande.idCommande }) }}">{{ commande.idCommande }}</a>
+                        </td>
+                        <td>{{ commande.user.prenomNom|title }}</td>
+                        <td>{{ commande.numcommande }}</td>
+                        <td>{% if commande.datecommande %}{{ commande.datecommande|date('Y-m-d') }}{% endif %}</td>
+                        <td><strong>{{ commande.calculMontant }} DT</strong></td>
+                        <td>{{ commande.type }}</td>
+                        <td>{% if commande.datelivraison %}{{ commande.datelivraison|date('Y-m-d') }}{% endif %}</td>
+                        <td>
+                            {% if commande.etat == 'en attente' %}
+                                <span class="badge badge-warning" style="padding: 5px; font-size: 15px"><i class="fa fa-hourglass-half"></i> {{ commande.etat }}</span>
+                            {% elseif commande.etat == 'validée' %}
+                                <span class="badge badge-success" style="padding: 5px; font-size: 15px"><i class="fa fa-check"></i> {{ commande.etat }}</span>
+                                {% else %}
+                                        <span class="badge badge-danger" style="padding: 5px; font-size: 15px"><i class="fa fa-minus-circle"></i> {{ commande.etat }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+
+
+                            <a href="{{ path('admin_commande_show', { 'id_commande': commande.idCommande }) }}"><i
+                                        class="fa fa-eye text-success"></i></a>&nbsp;&nbsp;
+
+                            <a href="{{ path('admin_commande_edit', { 'id_commande': commande.idCommande }) }}"><i
+                                        class="fa fa-edit text-success"></i></a>&nbsp;&nbsp;
+
+                            <a href="{{ path('admin_commande_delete', { 'id_commande': commande.idCommande }) }}"><i
+                                        class="fa fa-trash text-danger"></i> </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+{% endblock %}

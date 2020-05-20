@@ -1,0 +1,48 @@
+<h3>Voici une copie pdf d'une commande de votre client {{ commande.user.prenomNom|title  }}    avec Num de commande {{ commande.numCommande }}
+    et montant Total: {{ commande.calculMontant }} DT
+    <p>
+        Elle sera livrée le {{ commande.dateLivraison|date('d-m-Y') }}
+    </p></h3>
+
+<body>
+
+    <div class="left-ads-display col-lg-12">
+        <div class="row">
+
+            <table class=" table table-striped">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>img</th>
+                    <th>Article</th>1
+                    <th>Quantité</th>
+                    <th>Prix</th>
+                    <th>Total</th>
+                    <th>Seuil max</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for ligne in commande.lignes %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><img class="img-fluid rounded" src="{{ ligne.article.img }}" style="width: 100px"></td>
+                        <td>{{ ligne.article.designation }}</td>
+                        <td>{{ ligne.qte }}</td>
+                        <td> {{ ligne.article.prixVente }} DT</td>
+                        <td>{{ ligne.totalLigne }} DT</td>
+                        <td>{{ ligne.article.seuilMax }}</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td class="text-right" colspan="6" style="padding-right: 50px">
+                        <h2>Total: {{ commande.calculMontant }} DT</h2>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+
+</body>

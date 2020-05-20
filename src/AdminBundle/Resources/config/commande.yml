@@ -1,0 +1,29 @@
+admin_commande_index:
+  path:     /
+  defaults: { _controller: "AdminBundle:Commande:index" }
+  methods:  GET
+
+admin_commande_show:
+  path:     /{id_commande}/show
+  defaults: { _controller: "AdminBundle:Commande:show" }
+  methods:  GET
+
+admin_commande_edit:
+  path:     /{id_commande}/edit
+  defaults: { _controller: "AdminBundle:Commande:edit" }
+  methods:  [GET, POST]
+
+admin_commande_delete:
+  path:     /{id_commande}/delete
+  defaults: { _controller: "AdminBundle:Commande:delete" }
+  methods:  GET
+
+admin_commande_envoyer_mail:
+  path:     /envoyer-mail/{id}
+  defaults: { _controller: "AdminBundle:Commande:envoyerMail" }
+  methods:  [GET, POST]
+
+admin_commande_pdf:
+  path:     /{id_commande}/pdf
+  defaults: { _controller: "AdminBundle:Commande:pdf" }
+  methods:  GET

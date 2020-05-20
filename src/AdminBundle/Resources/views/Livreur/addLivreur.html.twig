@@ -1,0 +1,59 @@
+{% extends "@Admin/Default/back.html.twig" %}
+
+{% block body %}
+
+    <div class="left-ads-display col-lg-9">
+        <div class="row">
+
+
+            {{ form_start(form) }}
+
+
+
+            <table align="center">
+                <form action="#" method="post">
+                    <div class=" agile-wls-contact-mid">
+
+                        <div class="form-group contact-forms">
+
+
+                            <label class="control-label">Nom du livreur </label>
+                            {{ form_widget(form.nom,{'attr':{'class':'form-control','placeholder':"Saisir le nom du livreur"}}) }}
+                            {{ form_errors(form.nom) }}
+                        </div>
+
+                        <div class="form-group contact-forms">
+                            <label class="control-label">Prénom du livreur </label>
+                            {{ form_widget(form.prenom,{'attr':{'class':'form-control','placeholder':"Saisir le prénom du livreur"}}) }}
+                            {{ form_errors(form.prenom) }}
+                        </div>
+
+                        <div class="form-group contact-forms">
+                            <label class="control-label">Ville du livreur </label>
+                            {{ form_widget(form.ville,{'attr':{'class':'form-control','placeholder':"Saisir la ville du livreur"}}) }}
+                            {{ form_errors(form.ville) }}
+                        </div>
+
+                        <div class="form-group contact-forms">
+                            <label class="control-label">Téléphone du livreur </label>
+                            {{ form_widget(form.telephone,{'attr':{'class':'form-control','placeholder':"Saisir le téléphone du livreur"}}) }}
+                            {{ form_errors(form.telephone) }}
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-3 col-lg-3 col-sm-12">
+
+                                <button type="submit" class="btn btn-default">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </table>
+
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}

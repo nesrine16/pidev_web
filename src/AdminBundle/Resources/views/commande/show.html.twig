@@ -1,0 +1,44 @@
+{% extends "@Admin/Default/back.html.twig" %}
+
+{% block body %}
+
+    <div class="left-ads-display col-lg-12">
+        <div class="row">
+            <a href="{{ path('admin_commande_pdf', {'id_commande': commande.idCommande}) }}"class="btn btn-warning"><i class="fa fa-file-pdf text-danger"></i> Génerer pdf </a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <table class=" table table-striped">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>img</th>
+                    <th>Article</th>
+                    <th>Quantité</th>
+                    <th>Prix</th>
+                    <th>Total</th>
+                    <th>Seuil max</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for ligne in commande.lignes %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td><img class="img-fluid rounded" src="{{ asset(ligne.article.img) }}" style="width: 100px"></td>
+                        <td>{{ ligne.article.designation }}</td>
+                        <td>{{ ligne.qte }}</td>
+                        <td> {{ ligne.article.prixVente }} DT</td>
+                        <td>{{ ligne.totalLigne }} DT</td>
+                        <td>{{ ligne.article.seuilMax }}</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td class="text-right" colspan="6" style="padding-right: 50px">
+                        <h2>Total: {{ commande.calculMontant }} DT</h2>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+{% endblock %}
