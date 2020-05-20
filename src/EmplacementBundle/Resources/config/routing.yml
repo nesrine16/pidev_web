@@ -1,0 +1,57 @@
+emplacement_homepage:
+    path:     /›
+    defaults: { _controller: EmplacementBundle:Default:index }
+
+
+emplacement_affichAllee:
+    path:     /affich
+    defaults: { _controller: EmplacementBundle:Allee:affichAllee }
+allee_ajout:
+    path:     /ajoutAllee
+    defaults: { _controller: EmplacementBundle:Allee:ajoutAllee }
+
+del_allee:
+    path:     /deleteAllee/{id}
+    defaults: { _controller: EmplacementBundle:Allee:delAllee }
+
+show_emp:
+    path:     /affichEmp
+    defaults: { _controller: EmplacementBundle:Emplacement:affichEmp }
+
+all:
+    path:     /all
+    defaults: { _controller: EmplacementBundle:Allee:all }
+
+add:
+    path:     /add
+    defaults: { _controller: EmplacementBundle:Allee:add }
+
+allEmp:
+    path:     /allEmp
+    defaults: { _controller: EmplacementBundle:Emplacement:allEmp }
+
+updateAllee:
+    path:     /updateAllee/{id}
+    defaults: { _controller: EmplacementBundle:Allee:updateAllee  }
+
+update:
+    path:     /update/{id}/{nbTrav}
+    defaults: { _controller: EmplacementBundle:Allee:update  }
+
+delete:
+    path:     /delete/{id}
+    defaults: { _controller: EmplacementBundle:Allee:delete  }
+
+search:
+    path:     /search/{codeEmp}
+    defaults: { _controller: EmplacementBundle:Emplacement:SearchByCode  }
+
+searchE:
+    path:     /searchEtat/{etat}
+    defaults: { _controller: EmplacementBundle:Emplacement:SearchByEtat  }
+
+updateE:
+    path:     /updateE/{fam}/{allee}
+    defaults: { _controller: EmplacementBundle:Emplacement:updateEmp  }
+
+

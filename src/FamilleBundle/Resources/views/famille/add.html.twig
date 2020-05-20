@@ -1,0 +1,128 @@
+{% extends "@Admin/Default/back.html.twig" %}
+{% block slide %}
+    <div class="inner_page-banner one-img">
+    </div>
+    <div class="using-border py-3">
+        <div class="inner_breadcrumb  ml-4">
+            <ul class="short_ls">
+
+                <li>Ajouter une famille</li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+
+
+{% block body %}
+
+    <div class="left-ads-display col-lg-9">
+        <div class="row">
+
+
+            {{ form_start(form) }}
+
+
+
+            <table align="center">
+                <form action="#" method="post">
+                    <div class=" agile-wls-contact-mid">
+
+                        <div class="form-group contact-forms">
+
+
+                            <label class="control-label">Nom de la famille </label>
+                            {{ form_widget(form.nomFamille,{'attr':{'class':'form-control','placeholder':"Saisir le nom de la famille"}}) }}
+                            {{ form_errors(form.nomFamille) }}
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-3 col-lg-3 col-sm-12">
+
+                                <button type="submit" class="btn btn-default">Ajouter</button>
+                            </div>
+                        </div>
+
+                        {{ form_start(form) }}
+                        {{ form_widget(form) }}
+                        {{ form_end(form) }}
+                        <table class="table table_condensed">
+                            <thead>
+
+                            <th> ID </th>
+                            <th> Nom Famille</th>
+                            </thead>
+                            {% for fam in fams %}
+                                <tr>
+                                    <td>{{ fam.codeFamille }}</td>
+                                    <td>{{ fam.nomFamille }}</td>
+                                    <td class="col-md-2"><a href="{{ path('del_famille',{'codeFamille':fam.codeFamille}) }}"
+                                                            class="btn btn-danger">Supprimer
+                                        </a>
+                                    </td>
+
+                                    <td class="col-md-2"><a href="{{ path('del_famille',{'codeFamille':fam.codeFamille}) }}"
+                                                            class="btn btn-danger">Modifier
+                                        </a>
+                                    </td>
+
+
+                                </tr>
+
+                            {% endfor %}
+
+
+                        </table>
+                    </div>
+                </form>
+            </table>
+
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+
+{% block js %}
+    <script src="{{ asset('notif/lobibox.js') }}"></script>
+    <script src="{{ asset('datePicker.js') }}"></script>
+{% endblock %}
+
+{% block login %}
+    <div>
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+            <a href="{{ path('fos_user_security_logout') }}">
+                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+            </a>
+
+        {% endif %}
+    </div>
+
+    {% if app.request.hasPreviousSession %}
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="flash-{{ type }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
+    <div>
+        {% block fos_user_content %}
+        {% endblock fos_user_content %}
+    </div>
+{% endblock %}
+
+
+
+

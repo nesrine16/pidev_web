@@ -1,0 +1,70 @@
+<html>
+<head>
+    {%block css%}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.6/css/jquery.dataTables.min.css" />
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
+        <style type="text/css">
+
+        </style>
+    {% endblock %}
+</head>
+</html>
+
+<body cz-shortcut-listen="true">
+<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="http://malsup.github.io/min/jquery.form.min.js"></script>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">dataTable exemple</a>
+        </div>
+        {% block actions %}
+        {% endblock %}
+    </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 main">
+            <br />
+            {% block body %}
+
+                {% for e in emp %}
+                    <tr>
+                        <td>{{ e.codeEmp }}</td>
+                        <td>{{ e.intitule }}</td>
+                        <td>{{ e.etat}}</td>
+
+                        <td class="col-md-2"><a href="#"
+                                                class="btn btn-danger">Modifier
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- /.modal source code -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content"></div>
+    </div>
+</div>
+</body>
+

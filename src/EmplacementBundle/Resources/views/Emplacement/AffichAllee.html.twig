@@ -1,0 +1,16 @@
+<h2>Listes des allees</h2>
+
+
+<table border="2">
+    <tr>
+        <th> Code Alle</th>
+        <th> code travee</th>
+    </tr>
+    {% for e in allee %}
+    <tr>
+        <td> {{ e.ligne }}</td>
+        <td> {{ e.nbTrav }}</td>
+
+    </tr>
+    {% endfor %} }
+</table>

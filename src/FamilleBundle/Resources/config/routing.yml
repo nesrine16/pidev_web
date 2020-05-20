@@ -1,0 +1,21 @@
+famille_homepage:
+    path:     /
+    defaults: { _controller: FamilleBundle:Default:index }
+
+addfamille:
+    path:     /addfamille
+    defaults: { _controller: FamilleBundle:Famille:add }
+
+del_famille:
+    path:     /delete_famille/{codeFamille}
+    defaults: { _controller: FamilleBundle:Famille:delFamille }
+
+allFamille:
+    path:     /allFamille
+    defaults: { _controller: FamilleBundle:Famille:allFamille }
+
+
+
+searchFam:
+    path:     /searchFam/{nomFamille}
+    defaults: { _controller: FamilleBundle:Famille:SearchFam}
