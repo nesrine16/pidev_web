@@ -11,6 +11,12 @@ livreur_ajout:
 show_Livreur:
     path:     /showlivreur
     defaults: { _controller: AdminBundle:Livreur:showLivreur }
+livreur_ajoutMob:
+    path:     /ajoutlivreurMob
+    defaults: { _controller: AdminBundle:Livreur:ajoutLivreurMob }
+show_LivreurMob:
+    path:     /showlivreurMob
+    defaults: { _controller: AdminBundle:Livreur:showLivreurMob }
 remove_Livreur:
     path:     /remove_Livreur
     defaults: { _controller: AdminBundle:Livreur:RemoveLivreur }
