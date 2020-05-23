@@ -76,5 +76,44 @@ class utilisateurController extends Controller
         return new JsonResponse($formatted);
     }
 
+    public function SearchByNomAction(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $code=$request->get('username');
+        $em = $this->getDoctrine()->getManager();
+        $aa = $em->getRepository('UserBundle:utilisateur')->findByNom($code);
+        $ser = new Serializer([new ObjectNormalizer()]);
+        $formated = $ser->normalize($aa);
+
+        return new JsonResponse($formated);
+    }
+
+
+
+    public function getUserByIdAction(Request $request,$id){
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('UserBundle:utilisateur')->findOneBy(array('id' => $id));
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        return new JsonResponse($serializer->normalize($user));
+    }
+
+    public function getUserByUsernamePasswordAction(Request $request,$username,$password){
+        $em = $this->getDoctrine()->getManager();
+        $users = $em->getRepository('UserBundle:utilisateur')->findBy(array('username'=> $username));
+        $user = $users[0];
+
+
+        if($user == null) return new JsonResponse(null);
+        else{
+            $passwordMatches = password_verify($password,$user->getPassword());
+            if(!$passwordMatches) return new JsonResponse(null);
+            else{
+                $serializer = new Serializer([new ObjectNormalizer()]);
+                return new JsonResponse($serializer->normalize($user));
+            }
+        }
+    }
+
+
+
 
 }
