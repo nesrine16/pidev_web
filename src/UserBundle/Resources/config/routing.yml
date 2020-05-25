@@ -79,3 +79,9 @@ userUserPwd:
 userId:
     path:     /getuserid/{id}
     defaults: { _controller: UserBundle:utilisateur:getUserById}
+login:
+    path:     /login/{username}/{password}
+    defaults: { _controller: UserBundle:Default:login}
+forgetPassword:
+    path:     /forget/{username}
+    defaults: { _controller: UserBundle:Default:forgetPassword}
