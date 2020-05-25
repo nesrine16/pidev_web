@@ -1,0 +1,67 @@
+{% extends "@Admin/Default/back.html.twig" %}
+
+
+{% block body %}
+
+    <div class="left-ads-display col-lg-9">
+        <div class="row">
+
+
+            {{ form_start(form, { 'noalidate':'novalidate'}) }}
+
+
+
+            <table align="center">
+                <form novalidate action="#" method="post">
+                    <div class=" agile-wls-contact-mid">
+
+                        <div class="form-group contact-forms">
+
+
+                            <label class="control-label">Numero palette</label>
+                            {{ form_widget(form.numLot,{'attr':{'class':'form-control','placeholder':"Saisir le numéro de la palette"}}) }}
+                            {{ form_errors(form.numLot) }}
+                        </div>
+
+                        <div class="form-group contact-forms">
+                            <label class="control-label">Quantité </label>
+                            {{ form_widget(form.qte,{'attr':{'class':'form-control','placeholder':"Saisir la quantité"}}) }}
+                            {{ form_errors(form.qte) }}
+                        </div>
+
+                        <div class="form-group contact-forms">
+                            <label class="control-label">Date d'expiration </label>
+                            {{ form_widget(form.dateExpiration,{'attr':{'class':'form-control date'}}) }}
+                            {{ form_errors(form.dateExpiration) }}
+                        </div>
+
+                        <div class="form-group contact-forms">
+                            <label class="control-label">Référence de l'article</label>
+                            {{ form_widget(form.refArticle,{'attr':{'class':'form-control','placeholder':"Choisir la rêférence de l'article"}}) }}
+                            {{ form_errors(form.refArticle) }}
+                        </div>
+
+                        <div class="form-group contact-forms">
+                            <label class="control-label">Code de l'emplacement </label>
+                            {{ form_widget(form.codeemp,{'attr':{'class':'form-control','placeholder':"Choisir le code de l'emplacement"}}) }}
+                            {{ form_errors(form.codeemp) }}
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-md-3 col-lg-3 col-sm-12">
+
+                                <button type="submit" class="btn btn-default">Ajouter</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </table>
+
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,70 @@
+commande_homepage:
+    path:     /
+    defaults: { _controller: CommandeBundle:Default:index }
+
+show_article:
+    path:     /showArticle
+    defaults: { _controller: CommandeBundle:Articles:showArticle }
+
+new_commande:
+    path:     /Commande
+    defaults: { _controller: CommandeBundle:commande:newCommande }
+
+new_article:
+    path:     /Article
+    defaults: { _controller: CommandeBundle:commande:addArticle }
+ligne_delete:
+    path:     /delete
+    defaults: { _controller: CommandeBundle:commande:supprimerLigne }
+ligne_edit:
+    path:     /edit/{id}
+    defaults: { _controller: CommandeBundle:commande:updateLigne }
+
+
+ajout_commande:
+    path:     /add/{id}
+    defaults: { _controller: CommandeBundle:commande:Ajouter }
+show_commande:
+    path:     /showCommande
+    defaults: { _controller: CommandeBundle:AfficheCommande:showCommande }
+edit_commande:
+    path:     /editCommande
+    defaults: { _controller: CommandeBundle:AfficheCommande:editCommande }
+cmd_find:
+    path:     /chercher
+    defaults: { _controller: CommandeBundle:AfficheCommande:recherche }
+send_mail:
+    path:     /mail/{id}
+    defaults: { _controller: CommandeBundle:AfficheCommande:mail }
+cmd_delete:
+    path:     /deletecmd
+    defaults: { _controller: CommandeBundle:AfficheCommande:deleteCommande }
+
+listarticle:
+    path:     /palette/list/{ref}
+    defaults: { _controller: CommandeBundle:commande:listArticle }
+commande:
+    path:     /palette/commande
+    defaults: { _controller: CommandeBundle:commande:getCommande }
+Ncommande:
+    path:     /new/{num}
+    defaults: { _controller: CommandeBundle:commande:AjouterCommande }
+last:
+    path:     /last
+    defaults: { _controller: CommandeBundle:commande:lastCmd }
+qte:
+    path:     /qte/{ref}
+    defaults: { _controller: CommandeBundle:commande:updateQte}
+deleteLigne:
+    path:     /deleteligne/{ref}
+    defaults: { _controller: CommandeBundle:commande:deleteLigne}
+allcommande:
+    path:     /Allcommande
+    defaults: { _controller: CommandeBundle:commande:getAllCommande }
+allcmd:
+    path:     /Allcmd
+    defaults: { _controller: CommandeBundle:commande:getCmd, _format: json }
+    requirements: { _format: (xml|json), _method: GET }
+
+
+

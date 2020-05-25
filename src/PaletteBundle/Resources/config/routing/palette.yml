@@ -1,0 +1,52 @@
+palette_index:
+    path:     /
+    defaults: { _controller: "PaletteBundle:Palette:index" }
+    methods:  GET
+
+palette_show:
+    path:     /{numLot}/show
+    defaults: { _controller: "PaletteBundle:Palette:show" }
+    methods:  GET
+
+palette_new:
+    path:     /new
+    defaults: { _controller: "PaletteBundle:Palette:new" }
+    methods:  [GET, POST]
+
+palette_edit:
+    path:     /{numLot}/edit
+    defaults: { _controller: "PaletteBundle:Palette:edit" }
+    methods:  [GET, POST]
+
+palette_delete:
+    path:     /delete
+    defaults: { _controller: "PaletteBundle:Palette:delete" }
+
+all:
+    path:     /palette/all
+    defaults: { _controller: PaletteBundle:Palette:all }
+find:
+    path:     /palette/find/{num}
+    defaults: { _controller: PaletteBundle:Palette:find }
+
+create:
+    path:     /palette/new/{ref}/{code}
+    defaults: { _controller: PaletteBundle:Palette:newp }
+
+article:
+    path:     /palette/article
+    defaults: { _controller: PaletteBundle:Palette:article }
+
+emp:
+    path:     /palette/emp
+    defaults: { _controller: PaletteBundle:Palette:emp }
+updateP:
+    path:     /palette/update/{num}/{ref}/{code}
+    defaults: { _controller: PaletteBundle:Palette:updateP }
+supprimerP:
+    path:     /palette/delete/{num}
+    defaults: { _controller: PaletteBundle:Palette:supprimerPalette }
+
+
+
+

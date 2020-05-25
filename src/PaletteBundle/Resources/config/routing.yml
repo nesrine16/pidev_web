@@ -1,0 +1,8 @@
+palette_palette:
+    resource: "@PaletteBundle/Resources/config/routing/palette.yml"
+    prefix:   /palette
+
+palette_homepage:
+    path:     /
+    defaults: { _controller: PaletteBundle:Default:index }
+

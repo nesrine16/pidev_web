@@ -1,0 +1,138 @@
+{% extends "@Admin/Default/back.html.twig" %}
+
+{% block body %}
+    <link href="{{ asset('css/style.css')}}" rel="stylesheet">
+
+    <div class="bs-example widget-shadow" data-example-id="contextual-table">
+
+
+
+<div class="container-contact100">
+		<div class="wrap-contact100">
+			<form class="contact100-form validate-form" method="post">
+    <span class="contact100-form-title">
+					Modification de la commande
+				</span>
+
+        {% for cmd in commandes %}
+
+    {% for ligne in cmd.lignes %}
+
+
+                        <label class="input100">Numero commande</label>
+                     <div class="wrap-input100 " >
+
+
+                        <input type="String"  value="{{ cmd.idCommande }}"
+                               class="input100"  required
+                               name="numCommande" >
+                        <span class="focus-input100"></span>
+
+                    </div>
+
+                        <label class="input100">Référence article </label>
+        <div class="wrap-input100 validate-input" >
+
+        <input type="string"  min="1" value="{{ ligne.refArticle }}"
+                               name="refArticle"
+                               class="input100"  required
+                               >
+                         <span class="focus-input100"></span>
+
+                    </div>
+
+                        <label class="input100">Quantité </label>
+        <div class="wrap-input100 validate-input" >
+
+        <input type="number" value="{{ ligne.qte }}"
+                               name="qte"
+                               class="input100"  required
+                               >
+                          <span class="focus-input100"></span>
+
+                    </div>
+
+
+                        <label class="input100">Fournisseur </label>
+        <div class="wrap-input100 validate-input" >
+                        <input type="string" value="{{ ligne.refArticle.fournisseur.nomsociete }}"
+                               name="fournisseur"
+                               class="input100"  required
+                              >
+                        <span class="focus-input100"></span>
+
+                    </div>
+
+                        <label class="input100">Date Commande </label>
+        <div class="wrap-input100 validate-input" >
+
+        <input type="date" value="{{ cmd.dateCommande |date('Y-m-d')}}"
+                               name="dateCommande"
+                               class="input100"  required
+                               >
+                         <span class="focus-input100"></span>
+
+                    </div>
+
+
+
+
+
+                        <label class="input100">Date livraison </label>
+        <div class="wrap-input100 validate-input" >
+                        <input type="date" value="{{ cmd.dateLivraison |date('Y-m-d')}}"
+                               name="dateLivraison"
+                               class="input100"  required
+                               >
+                         <span class="focus-input100"></span>
+
+                    </div>
+
+
+                        <label class="input100">Etat </label>
+        <div class="wrap-input100 validate-input" >
+                        <input type="string" value="{{ cmd.etat}}"
+                               name="etat"
+                               class="input100"  required
+                               >
+                        <span class="focus-input100"></span>
+
+                    </div>
+
+        <div class="container-contact100-form-btn">
+            <button class="contact100-form-btn">
+						<span>
+							Modifier
+							<i class="zmdi zmdi-arrow-right m-l-8"></i>
+						</span>
+            </button>
+        </div>
+            </form>
+        </div>
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endfor %}
+
+{% endfor %}
+
+
+
+{% endblock %}
