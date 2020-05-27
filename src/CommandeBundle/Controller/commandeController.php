@@ -283,13 +283,19 @@ class commandeController extends AbstractController
     public function getAllCommandeAction()
     {
         $em= $this->getDoctrine()->getManager();
-        $dql="SELECT C.numCommande, A.refArticle, L.qte, F.nomsociete, C.montant, C.etat FROM CommandeBundle:Lignecommande L,CommandeBundle:Commande C, CommandeBundle:Article A, CommandeBundle:Fournisseur F
+        $dql="SELECT C.idCommande, C.numCommande, A.refArticle, L.qte, F.nomsociete, C.montant, C.etat, C.dateLivraison, C.dateCommande FROM CommandeBundle:Lignecommande L,CommandeBundle:Commande C, CommandeBundle:Article A, CommandeBundle:Fournisseur F
                 WHERE L.idCommande = C.idCommande and 
                L.refArticle=A.refArticle AND A.fournisseur=F.id ORDER BY C.numCommande DESC ";
         $query= $em->createQuery($dql);
         $res= $query->getResult();
         //dump($res); die();
 
+        for ($i=0;$i<count($res);$i++)
+        {
+            $res[$i]['dateLivraison']=$res[$i]['dateLivraison']->format('Y-m-d');
+            $res[$i]['dateCommande']=$res[$i]['dateCommande']->format('Y-m-d');
+
+        }
         $serializer=new Serializer([new ObjectNormalizer()]);
         $formatted = $serializer->normalize($res);
         return new JsonResponse($formatted);
@@ -297,25 +303,23 @@ class commandeController extends AbstractController
     }
 
 
-        public function getCmdAction()
-    {        $em= $this->getDoctrine()->getManager();
+    public function updateCommandeAction(Request $request, $num,$ref,$id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $cmd= $em->getRepository('CommandeBundle:Commande')->findOneBy(array('numCommande' => $num));
+//dump($cmd);die();
+        $ligne= $em->getRepository('CommandeBundle:Lignecommande')->findOneBy(array('idCommande' => $id, 'refArticle' => $ref));
 
-        $all = $this->getDoctrine()->getManager()>getRepository(Commande::Class)->findAll();;
-        $dql= "select c from CommandeBundle:Commande c";
-        $query= $em->createQuery($dql);
-        $res= $query->getResult();
+        $ligne->setQte($request->get('qte'));
+        $cmd->setEtat($request->get('etat'));
+        $cmd->setMontant($request->get('montant'));
 
-       // $ser = new Serializer([new ObjectNormalizer()]);
-       // $formated = $ser->normalize($res);
-       // return new JsonResponse($formated);
+        $cmd->setDateCommande(new \DateTime($request->get('dateCommande')));
 
-        $serializer = SerializerBuilder::create()->build();
-        $jsonObject = $serializer->serialize($all, 'json');
-
-        return $jsonObject;
-
-
-
+        $em->flush();
+        $serializer=new Serializer([new ObjectNormalizer()]);
+       // $formatted = $serializer->normalize( $cmd);
+        return new JsonResponse("success");
 
     }
 
