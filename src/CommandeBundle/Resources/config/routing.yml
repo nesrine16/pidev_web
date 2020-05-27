@@ -65,6 +65,8 @@ allcmd:
     path:     /Allcmd
     defaults: { _controller: CommandeBundle:commande:getCmd, _format: json }
     requirements: { _format: (xml|json), _method: GET }
-
+updateCommande:
+    path:     /update/{num}/{ref}/{id}
+    defaults: { _controller: CommandeBundle:commande:updateCommande}
 
 
