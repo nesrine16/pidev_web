@@ -1,0 +1,36 @@
+{% extends "@Admin/Default/back.html.twig" %}
+
+{% block body %}
+    <h1>Palette</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Numlot</th>
+                <td>{{ palette.numLot }}</td>
+            </tr>
+            <tr>
+                <th>Qte</th>
+                <td>{{ palette.qte }}</td>
+            </tr>
+            <tr>
+                <th>Dateexpiration</th>
+                <td>{% if palette.dateExpiration %}{{ palette.dateExpiration|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('palette_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('palette_edit', { 'numLot': palette.numLot }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

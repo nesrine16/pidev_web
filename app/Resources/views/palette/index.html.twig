@@ -1,0 +1,73 @@
+
+{% extends "@Admin/Default/back.html.twig" %}
+
+{% block body %}
+    <link href="{{ asset('css/table.css')}}" rel="stylesheet">
+
+
+    <div class="bs-example widget-shadow" data-example-id="contextual-table">
+        <h3 style="margin-left: 39%"> Liste des palettes</h3>
+
+            <div class="limiter">
+                <div class="container-table100">
+                    <div class="wrap-table100">
+                        <div class="table100">
+                            <table style="margin-top: 2%">
+                                <thead>
+             <tr class="table100-head">
+
+
+                <th>Numéro palette</th>
+                <th>Quantité</th>
+                <th>Date d'éxpiration</th>
+                <th>Référence article</th>
+                <th>Emplacement</th>
+                <th></th>
+                <th></th>
+
+            </tr>
+                                </thead>
+                                <tbody>
+            {% for palette in pagination %}
+
+                <tr>
+
+                    <td>{{ palette.numLot }}</a></td>
+                    <td>{{ palette.qte }}</td>
+                    <td>{% if palette.dateExpiration %}{{ palette.dateExpiration|date('Y-m-d') }}{% endif %}</td>
+                    <td>{{ palette.refArticle }}</td>
+                    <td>{{ palette.codeEmp }}</td>
+
+                    <td>
+
+                        <a href="{{ path("palette_delete",{'numLot':palette.numLot})}}" onclick="return confirm('Voulez-vous vraiment supprimer cette palette?')">
+                            <i
+                                    class="fa fa-times text-danger"></i>
+                        </a>
+                        </td>
+
+                    <td> <a href="{{ path('palette_edit', { 'numLot': palette.numLot }) }}">
+                        <i class="fa fa-pencil"></i>
+                        </a></td>
+
+                </tr>
+                                </tbody>
+            {% endfor %}
+
+                            </table>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+
+
+
+{% endblock %}
