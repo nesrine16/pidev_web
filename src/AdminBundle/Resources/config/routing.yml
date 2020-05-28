@@ -11,6 +11,12 @@ livreur_ajout:
 show_Livreur:
     path:     /showlivreur
     defaults: { _controller: AdminBundle:Livreur:showLivreur }
+livreur_ajoutMob:
+    path:     /ajoutlivreurMob
+    defaults: { _controller: AdminBundle:Livreur:ajoutLivreurMob }
+show_LivreurMob:
+    path:     /showlivreurMob
+    defaults: { _controller: AdminBundle:Livreur:showLivreurMob }
 remove_Livreur:
     path:     /remove_Livreur
     defaults: { _controller: AdminBundle:Livreur:RemoveLivreur }
@@ -32,6 +38,36 @@ update_Fournisseur:
 fournisseur_mail:
     path:     /composemail/{id}
     defaults: { _controller: AdminBundle:Fournisseur:mail }
+fournisseur_ajoutMob:
+    path:     /ajoutfournisseurMob
+    defaults: { _controller: AdminBundle:Fournisseur:ajoutFournisseurMobile }
+show_FournisseurMob:
+    path:     /showfournisseurMob
+    defaults: { _controller: AdminBundle:Fournisseur:showFournisseurMobile }
 
+find_livreur:
+    path:     /livreurs/find/{id}
+    defaults: { _controller: AdminBundle:Livreur:find}
+searchlivreur:
+    path:     /searchlivreur/{nom}
+    defaults: { _controller: AdminBundle:Livreur:SearchByNom}
+update:
+    path:     /updatefr
+    defaults: { _controller: AdminBundle:Fournisseur:updateFournisseurMobile}
+update_liv:
+    path:     /updateliv/{id}
+    defaults: { _controller: AdminBundle:Livreur:updateLivreurMobile}
+deleteLiv:
+    path:     /deleteliv
+    defaults: { _controller: AdminBundle:Livreur:deleteLivreurMobile}
+update_fsr:
+    path:     /updatefsr/{id}
+    defaults: { _controller: AdminBundle:Fournisseur:updateFournisseurMobile}
+deletefsr:
+    path:     /deletefsr
+    defaults: { _controller: AdminBundle:Fournisseur:deleteFournisseurMobile}
+searchfsr:
+    path:     /searchfsr/{nomSociete}
+    defaults: { _controller: AdminBundle:Fournisseur:SearchByNomSociete}
 
 

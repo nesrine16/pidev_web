@@ -37,6 +37,21 @@ class LivreurController extends Controller
 
     }
 
+    public function ajoutLivreurMobAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $livreur = new Livreur();
+        $livreur->setNom($request->get('nom'));
+        $livreur->setPrenom($request->get('prenom'));
+        $livreur->setVille($request->get('ville'));
+        $livreur->setTelephone($request->get('telephone'));
+        $em->persist($livreur);
+        $em->flush();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($livreur);
+        return new JsonResponse($formatted);
+    }
+
     public function showLivreurAction()
     {
         //create our entity manager: get the service doctrine
@@ -51,6 +66,16 @@ class LivreurController extends Controller
         ));
     }
 
+    public function showLivreurMobAction()
+    {
+        $tasks = $this->getDoctrine()->getManager()
+            ->getRepository('UserBundle:Livreur')
+            ->findAll();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($tasks);
+        return new JsonResponse($formatted);
+    }
+
     public function RemoveLivreurAction(Request $request)
     {
 
@@ -60,6 +85,20 @@ class LivreurController extends Controller
         $em->remove($livreur);
         $em->flush();
         return $this->redirectToRoute("show_Livreur");
+    }
+
+    public function deleteLivreurMobileAction(Request $request){
+        $id = $request->query->get('id');
+        $livreur = $this->getDoctrine()->getRepository('UserBundle:Livreur')->find($id);
+        if($livreur){
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($livreur);
+            $em->flush();
+            $response = array("body"=> "Livreur supprimé");
+        }else{
+            $response = array("body"=>"Error");
+        }
+        return new JsonResponse($response);
     }
 
     public function updatelivreurAction(Request $request){
@@ -80,5 +119,42 @@ class LivreurController extends Controller
         }
         return $this->render("@Admin/Livreur/updateLivreur.html.twig",array(
             'form'=>$form->createView(),'livreur'=>$livreur ,"nom"=>$nom));
+    }
+
+    public function updateLivreurMobileAction(Request $request,$id)
+    {
+        $em=$this->getDoctrine()->getManager();
+
+        $livreur=$em->getRepository("UserBundle:Livreur")->find($id);
+        $livreur->setNom($request->get('nom'));
+        $livreur->setPrenom($request->get('prenom'));
+        $livreur->setVille($request->get('ville'));
+        $livreur->setTelephone($request->get('telephone'));
+
+        $em->persist($livreur);
+        $em->flush();
+        return new JsonResponse("success");
+
+    }
+
+     public function SearchByNomAction(\Symfony\Component\HttpFoundation\Request $request)
+    {
+        $code=$request->get('nom');
+        $em = $this->getDoctrine()->getManager();
+        $aa = $em->getRepository('UserBundle:Livreur')->findByNom($code);
+        $ser = new Serializer([new ObjectNormalizer()]);
+        $formated = $ser->normalize($aa);
+
+        return new JsonResponse($formated);
+    }
+
+    public function findAction($id)
+    {
+        $tasks = $this->getDoctrine()->getManager()
+            ->getRepository('UserBundle:Livreur')
+            ->find($id);
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($tasks);
+        return new JsonResponse($formatted);
     }
 }

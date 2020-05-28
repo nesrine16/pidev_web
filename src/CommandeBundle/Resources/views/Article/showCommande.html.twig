@@ -1,0 +1,117 @@
+{% extends "@Admin/Default/back.html.twig" %}
+
+{% block body %}
+
+<link href="{{ asset('css/table.css')}}" rel="stylesheet">
+
+
+    <div class="bs-example widget-shadow" data-example-id="contextual-table">
+        <h3 style="margin-left: 39%"> Liste des commandes:</h3>
+<form class="navbar-form navbar-right" method="post" action="{{ path('cmd_find') }}">
+    <input  type="text" class="form-control" placeholder="chercher..."     >
+
+</form>
+
+        <div class="limiter">
+            <div class="container-table100">
+                <div class="wrap-table100">
+                    <div class="table100">
+                        <table style="margin-top: 2%">
+                            <thead>
+                            <tr class="table100-head">
+                <th>Numero Commande </th>
+                <th>Article</th>
+                <th>Quantité</th>
+                <th>Fournisseur</th>
+                <th>Date commande</th>
+                <th>Total commande</th>
+
+                <th>Date livraison</th>
+                <th>Etat</th>
+
+
+                <th> </th>
+
+
+                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+            {% for cmd in commandes %}
+            {% for ligne in cmd.lignes %}
+            <tr >
+                <td>{{ cmd.numCommande }}</td>
+                <td>{{ ligne.refArticle }}</td>
+                <td>{{ ligne.qte }}</td>
+                <td>{{ ligne.refArticle.fournisseur.nomsociete }}</td>
+                <td>{{ cmd.dateCommande |date('Y-m-d')}}</td>
+                <td>{{ cmd.montant }}</td>
+                <td>{{ cmd.dateLivraison |date('Y-m-d')}}</td>
+                <td>{{ cmd.etat}}</td>
+
+                <td>
+                    <div>
+                        <form  action="{{ path ('edit_commande') }}" method="post" >
+                            <div style="width: 49%">
+                                <input type="hidden" name="numCommande"
+                                       value="{{ cmd.numCommande }}">
+
+                            </div>
+
+                            <div style="width: 49%">
+                                <input type="hidden" name="refArticle"
+                                       value="{{ ligne.refArticle  }}">
+
+                            </div>
+
+                            <div style="width: 49%">
+                                <button type="submit" value="Modifier"  >
+                                    <i class="fa fa-pencil"></i>
+                                </button>
+
+                            </div>
+                        </form>
+                    </div>
+
+                </td>
+
+                
+                <td>
+                    <a href ="{{ path ('send_mail', { id:ligne.refArticle.fournisseur.id }) }}" onclick="return confirm ('envoyer mail?')">
+                        <i class="fa fa-envelope"></i>
+                    </a>
+                </td>
+
+                <td><a href="{{ path('cmd_delete', {'id': cmd.idCommande}) }}" onclick="return confirm('Voulez-vous vraiment supprimer cet article de votre commande?')"><i
+                                class="fa fa-times text-danger"></i></a>
+
+                    </a>
+                </td>
+
+
+
+
+
+
+
+            </tr>
+                            </tbody>
+            {% endfor %}
+            {% endfor %}
+
+        </table>
+
+
+
+    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                    <div class="navigation text-center">
+                        {{ knp_pagination_render(commandes) }}
+                    </div>
+
+    <div class="clearfix"></div>
+
+{% endblock %}

@@ -29,4 +29,47 @@ class DefaultController extends Controller
 
     }
 
+    public function loginAction($username,$password)
+    {
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $query = $entityManager->createQuery(
+            'SELECT u
+             FROM UserBundle:utilisateur u        
+             WHERE u.username = :username
+             AND u.password like :password'
+
+        )->setParameters(array(
+                'username'=>$username,
+                'password'=>$password.'%')
+        );
+
+        $user = $query->getResult();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($user);
+        return new JsonResponse($formatted);
+    }
+    /*
+     * recuperation mot de passe mobile
+     */
+    public function forgetPasswordAction($username)
+    {
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $query = $entityManager->createQuery(
+            'SELECT u
+             FROM UserBundle:utilisateur u        
+             WHERE u.username = :username'
+
+        )->setParameter(
+            'username',$username
+        );
+
+        $user = $query->getResult();
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($user);
+        return new JsonResponse($formatted);
+    }
+
+
 }

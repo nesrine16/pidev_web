@@ -58,3 +58,30 @@ list_art_par_famille:
 commande:
     path:     /commandemobile
     defaults: { _controller: UserBundle:Commande:commande }
+utilisateur_ajout:
+    path:     /ajoututilisateur
+    defaults: { _controller: UserBundle:utilisateur:ajoutUtilisateur }
+show_Utilisateur:
+    path:     /showutilisateur
+    defaults: { _controller: UserBundle:utilisateur:showUtilisateur }
+update:
+    path:     /updateutilisateur
+    defaults: { _controller: UserBundle:utilisateur:updateUtilisateurMobile}
+searchuser:
+    path:     /searchuser/{username}
+    defaults: { _controller: UserBundle:utilisateur:SearchByNom}
+user:
+    path:     /getuserid/{id}
+    defaults: { _controller: UserBundle:utilisateur:getUserById}
+userUserPwd:
+    path:     /getuserpwd/username/{username}/password/{password}
+    defaults: { _controller: UserBundle:utilisateur:getUserByUsernamePassword}
+userId:
+    path:     /getuserid/{id}
+    defaults: { _controller: UserBundle:utilisateur:getUserById}
+login:
+    path:     /login/{username}/{password}
+    defaults: { _controller: UserBundle:Default:login}
+forgetPassword:
+    path:     /forget/{username}
+    defaults: { _controller: UserBundle:Default:forgetPassword}

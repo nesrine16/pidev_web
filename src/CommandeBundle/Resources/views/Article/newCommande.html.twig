@@ -1,0 +1,154 @@
+{% extends "@Admin/Default/back.html.twig" %}
+
+{% block body %}
+<style>
+
+    table thead tr {
+        height: 60px;
+        background:  #189fA5 ;
+    }
+</style>
+    <div class="bs-example widget-shadow" data-example-id="contextual-table">
+
+
+        <link href="{{ asset('css/style.css')}}" rel="stylesheet">
+
+        <div class="bs-example widget-shadow" data-example-id="contextual-table">
+
+            {% for cmd in commandes %}
+
+            <div class="container-contact100">
+                <div class="wrap-contact100">
+                    <form class="contact100-form validate-form"action="{{ path('ajout_commande', {'id': cmd.idCommande}) }}" method="post">
+    <span class="contact100-form-title">
+					Ajouter une commande
+				</span>
+
+
+
+
+
+                            <label class="input100">Numero commande</label>
+
+                        <div class="wrap-input100 " >
+                            <input type="String"  value="{{ 'C_' ~  cmd.idCommande   }}"
+                                   required
+                                   name="numCommande"
+                                   class="input100" >
+
+                        </div>
+
+                            <label class="input100">Total </label>
+                        <div class="wrap-input100 " >
+                            <input type="number"  min="1"
+                                   name="montant"
+                                   class="input100"  required
+                                   >
+
+                        </div>
+
+                            <label class="input100"">Date commande </label>
+                        <div class="wrap-input100 " >
+                            <input type="date"
+                                   name="dateCommande"
+                                   class="input100"  required
+                                   >
+
+                        </div>
+
+
+                            <label class="input100">Date livraison </label>
+                        <div class="wrap-input100 " >
+                            <input type="date"
+                                   name="dateLivraison"
+                                    required
+                                   class="input100" >
+
+                    </div>
+
+                        <div class="container-contact100-form-btn">
+                            <button class="contact100-form-btn">
+						<span>
+							Ajouter
+							<i class="zmdi zmdi-arrow-right m-l-8"></i>
+						</span>
+                            </button>
+                        </div>
+
+
+
+
+        <form action="{{ path('ligne_edit', {'id': cmd.idCommande}) }}" method="post">
+
+
+
+
+        <table class="table" border="2" style="margin-top: 8%;   ">
+<thead >
+                <tr >
+
+                <th     >Reference </th>
+                <th   >Code à barre</th>
+                <th   >Designation</th>
+                <th  >Fournisseur</th>
+                <th  >Quantité</th>
+                <th >Actions</th>
+
+                </tr>
+</thead>
+
+{% for cmd in commandes %}
+    {% for ligne in cmd.lignes %}
+        <tr >
+          <td>{{ ligne.refArticle }}</td>
+          <td>{{ ligne.refArticle.codeBarres }}</td>
+           <td>{{ ligne.refArticle.designation }}</td>
+           <td>{{ ligne.refArticle.fournisseur.nomsociete }}</td>
+           <td>
+               <input type="number" class="form-control" style="width: 90px" min="1"
+                      required
+                      value="{{ ligne.qte }}" name="{{ ligne.id }}">
+
+           </td>
+           <td><a href="{{ path('ligne_delete', {'id': ligne.id}) }}" onclick="return confirm('Voulez-vous vraiment supprimer cet article de votre commande?')"><i
+                        class="fa fa-times text-danger"></i></a>
+
+               <button type="submit" class="btn btn-info" onclick="return alert('la quantité a été mise a jour')"><i class="fa fa-save"></i>
+               </button>
+
+
+        </td>
+
+
+    {% endfor %}
+            </tr>
+
+{% endfor %}
+
+        </table>
+
+</form>
+                        <div class="checkout-left">
+                            <div class="col-md-4 checkout-left-basket">
+                                <h4><a href="{{ path('show_article') }}" style="green: white"><- Retour</a></h4>
+
+                                <div>
+
+
+
+                                </div>
+                    </form>
+
+
+                </div>
+
+    </div>
+
+
+
+        {% endfor %}
+
+    </div>
+    <div class="clearfix"></div>
+
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends "@Admin/Default/back.html.twig" %}
+
+{% block body %}
+    <link href="{{ asset('css/table.css')}}" rel="stylesheet">
+
+    <div class="bs-example widget-shadow" data-example-id="contextual-table">
+        <h3 style="margin-left: 45%; "> Liste des articles </h3>
+
+
+        <div class="limiter">
+            <div class="container-table100">
+                <div class="wrap-table100">
+                    <div class="table100">
+                        <table style="margin-top: 2%">
+                            <thead>
+                            <tr class="table100-head">
+                <th>Reference </th>
+                <th>Code à barre</th>
+                <th>Designation</th>
+                <th>Fournisseur</th>
+                <th>Quantité</th>
+                <th> </th>
+
+
+                <th></th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+
+
+            {% for article in articles %}
+
+                <tr>
+
+                    <td>{{ article.refArticle }}</td>
+                    <td>{{ article.codeBarres}}</td>
+                    <td>{{ article.designation }}</td>
+                    <td>{{ article.fournisseur }}</td>
+
+
+                    <td>
+                        <div>
+                        <form  action="{{ path ('new_article') }}" method="post" >
+                          <div>
+                            <div style="width: 49%">
+                                <input type="hidden" name="refArticle"
+                                       value="{{ article.refArticle }}">
+
+                                <input type="number" name="qte" value="" min="1"
+                                       class="form-control" required
+                                       style="width: 100px; display: inline">
+
+                            </div>
+
+                            <div style="width: 49%">
+                                <button type="submit" value="+"  >
+                                    +
+                                </button>
+                            </div>
+                          </div>
+                        </form>
+                        </div>
+
+                     </td>
+
+                </tr>
+
+                            </tbody>
+            {% endfor %}
+
+        </table>
+
+
+
+    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <div>
+
+
+
+        <form  action="{{ path('new_commande') }}" method="post">
+
+
+            <div class="container-contact100-form-btn" type="submit">
+                <button class="contact100-form-btn">
+						<span>
+							Créer commande
+							<i class="zmdi zmdi-arrow-right m-l-8"></i>
+						</span>
+                </button>
+            </div>
+
+
+        </form>
+
+    </div>
+
+    <div class="navigation text-center">
+        {{ knp_pagination_render(articles) }}
+    </div>
+
+    <div class="clearfix"></div>
+
+{% endblock %}
