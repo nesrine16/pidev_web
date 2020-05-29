@@ -43,8 +43,6 @@ class utilisateurController extends Controller
         return new JsonResponse($formatted);
     }
 
-
-
       public function updateUtilisateurMobileAction(Request $request){
         $id=$request->get('id');
         $em=$this->getDoctrine()->getManager();
@@ -65,6 +63,19 @@ class utilisateurController extends Controller
         return new JsonResponse($formatted);
     }
 
+    public function deleteUtilisateurAction(Request $request){
+        $id = $request->query->get('id');
+        $utilisateur = $this->getDoctrine()->getRepository('UserBundle:utilisateur')->find($id);
+        if($utilisateur){
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($utilisateur);
+            $em->flush();
+            $response = array("body"=> "Utilisateur supprimé");
+        }else{
+            $response = array("body"=>"Error");
+        }
+        return new JsonResponse($response);
+    }
 
     public function findAction($id)
     {
@@ -76,18 +87,17 @@ class utilisateurController extends Controller
         return new JsonResponse($formatted);
     }
 
-    public function SearchByNomAction(\Symfony\Component\HttpFoundation\Request $request)
+     public function SearchByNomAction(\Symfony\Component\HttpFoundation\Request $request)
     {
+
         $code=$request->get('username');
         $em = $this->getDoctrine()->getManager();
-        $aa = $em->getRepository('UserBundle:utilisateur')->findByNom($code);
+        $aa = $em->getRepository('UserBundle:utilisateur')->findByUsername($code);
         $ser = new Serializer([new ObjectNormalizer()]);
         $formated = $ser->normalize($aa);
 
         return new JsonResponse($formated);
     }
-
-
 
     public function getUserByIdAction(Request $request,$id){
         $em = $this->getDoctrine()->getManager();
@@ -96,24 +106,39 @@ class utilisateurController extends Controller
         return new JsonResponse($serializer->normalize($user));
     }
 
-    public function getUserByUsernamePasswordAction(Request $request,$username,$password){
+    public function getUserByUsernamePasswordAction(Request $request,$username,$password)
+    {
         $em = $this->getDoctrine()->getManager();
-        $users = $em->getRepository('UserBundle:utilisateur')->findBy(array('username'=> $username));
+        $users = $em->getRepository('UserBundle:utilisateur')->findBy(array('username' => $username));
         $user = $users[0];
 
-
-        if($user == null) return new JsonResponse(null);
-        else{
-            $passwordMatches = password_verify($password,$user->getPassword());
-            if(!$passwordMatches) return new JsonResponse(null);
-            else{
+        if ($user == null) return new JsonResponse(null);
+        else {
+            $passwordMatches = password_verify($password, $user->getPassword());
+            if (!$passwordMatches) return new JsonResponse(null);
+            else {
                 $serializer = new Serializer([new ObjectNormalizer()]);
                 return new JsonResponse($serializer->normalize($user));
             }
         }
     }
 
+    public function mailAction(Request $request){
+        $id=$request->get('id');
+        $password=$request->get('password');
+        $em = $this->getDoctrine()->getManager();
+        $fournisseur = $em->getRepository("UserBundle:utilisateur")->find($id);
 
+        $message = \Swift_Message::newInstance()
+            ->setSubject($request->get('subj'))
+            ->setFrom('hanene.ennine@esprit.tn','smart truck')
+            ->setTo('hanene.ennine@esprit.tn')
+            ->setBody($request->get('Votre mot de passe est'+$password));
 
+        $this->get('mailer')->send($message);
+        return $this->render("@Admin/Fournisseur/mailpage.html.twig",array(
+            'fournisseur'=>$fournisseur
+        ));
 
+    }
 }
