@@ -70,18 +70,21 @@ update:
 searchuser:
     path:     /searchuser/{username}
     defaults: { _controller: UserBundle:utilisateur:SearchByNom}
-user:
-    path:     /getuserid/{id}
-    defaults: { _controller: UserBundle:utilisateur:getUserById}
 userUserPwd:
-    path:     /getuserpwd/username/{username}/password/{password}
+    path:     /getuserpwd/{username}/{password}
     defaults: { _controller: UserBundle:utilisateur:getUserByUsernamePassword}
 userId:
     path:     /getuserid/{id}
     defaults: { _controller: UserBundle:utilisateur:getUserById}
+delete_user:
+    path:     /deleteuser
+    defaults: { _controller: UserBundle:utilisateur:deleteUtilisateur}
 login:
     path:     /login/{username}/{password}
     defaults: { _controller: UserBundle:Default:login}
 forgetPassword:
     path:     /forget/{username}
     defaults: { _controller: UserBundle:Default:forgetPassword}
+mail:
+    path:     /composemail/{id}/{password}
+    defaults: { _controller: UserBundle:utilisateur:mail }
