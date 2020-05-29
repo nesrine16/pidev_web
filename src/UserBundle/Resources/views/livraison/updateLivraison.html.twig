@@ -13,43 +13,67 @@
 
 {% endblock %}
 {% block body %}
+    <link rel="stylesheet" href="#" type="text/css">
+   {# {{ form_start(form) }} #}
+    <div class="container py-lg-5 py-md-4 py-sm-4 py-3">
+        <h3 class="title text-center mb-lg-5 mb-md-4 mb-sm-4 mb-3">Modifier une livraison</h3>
+        <div class="contact-list-grid">
+            <form action="#" method="post">
+                <div class=" agile-wls-contact-mid">
 
-    <div class="left-ads-display col-lg-9">
-        <div class="row">
-
-
-            {{ form_start(form) }}
-
-
-
-            <table align="center">
-                <form action="#" method="post">
-
-                    <div class=" agile-wls-contact-mid">
-
-                        <h3>Modifier les informations de votre livraison</h3>
-                        <div class="form-group contact-forms">
-                            <label class="control-label">Nom du livreur </label>
-                            {{ form_widget(form.livreur,{'attr':{'class':'form-control','placeholder':"Saisir le nom du livreur"}}) }}
-                            {{ form_errors(form.livreur) }}
-                        </div>
-
-
-
+                    <div class="form-group contact-forms">
+                        <label class="control-label">Nom du livreur </label>
+                        {{ form_widget(form.livreur,{'attr':{'class':'form-control','placeholder':"Saisir le nom du livreur"}}) }}
+                        {{ form_errors(form.livreur) }}
                     </div>
 
-                </form>
-            </table>
-            <div class="row">
-                <div class="col-md-3 col-lg-3 col-sm-12">
+                    <div class="form-group contact-forms">
+                        <label class="control-label">Commande du livreur </label>
+                        {{ form_widget(form.commande.montant,{'attr':{'class':'form-control','placeholder':"Saisir le montant "}}) }}
+                        {{ form_errors(form.commande.montant) }}
+                    </div>
 
-                    <button type="submit" class="btn btn-default"><i class="fa fa-save"></i>>Modifier</button>
+
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 col-sm-12">
+                            <button type="submit" class="btn btn-block sent-butnn" name="_submit" id="_submit">Modifier</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-
-            {{ form_end(form) }}
+            </form>
+            {# {{ form_end(form) }} #}
         </div>
+
     </div>
 
 {% endblock %}
+
+
+{% block login %}
+    <div>
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+            <a href="{{ path('fos_user_security_logout') }}">
+                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+            </a>
+
+        {% endif %}
+    </div>
+
+    {% if app.request.hasPreviousSession %}
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="flash-{{ type }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
+    <div>
+        {% block fos_user_content %}
+        {% endblock fos_user_content %}
+    </div>
+{% endblock %}
+
+
