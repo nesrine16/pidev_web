@@ -1,0 +1,67 @@
+
+{% extends "@track/Default/back.html.twig" %}
+
+
+
+
+{% block body %}
+
+    <div class="bs-example widget-shadow" data-example-id="contextual-table">
+        <h3> Liste des Articles:</h3>
+
+        <link rel="stylesheet" href="http://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="http://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+        <script>
+            $(document).ready( function () {
+                $('#myTable').DataTable();
+            } );
+        </script>
+
+
+        <table id="myTable" class="table" border="2">
+            <thead>
+            <tr>
+                <th>Référence</th>
+                <th>Désignation</th>
+                <th>Code à barres</th>
+                <th>Unité</th>
+                <th>Prix d'achat</th>
+                <th>Prix de vente</th>
+                <th>Seuil minimum</th>
+                <th>Seuil Maximum</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for article in articles %}
+
+                <tr>
+
+                    <td>{{ article.refArticle }}</td>
+                    <td>{{ article.designation }}</td>
+                    <td>{{ article.code }}</td>
+                    <td>{{ article.unite }}</td>
+                    <td>{{ article.prixAchat }}</td>
+                    <td>{{ article.prixVente }}</td>
+                    <td>{{ article.seuilMin }}</td>
+                    <td>{{ article.seuilMax }}</td>
+
+
+                    <td><a href="{{ path('remove_Article', {'ref_article':article.refArticle}) }}" onclick="return confirm('Etes-vous sûre de supprimer cet article?')"><img src="{{ asset('bundles/track/images/deletee.png') }}" /></a></td>
+
+                    <td><a href="{{ path("update_Article",{'ref_article':article.refArticle})}}"> <img src="{{ asset('bundles/track/images/update.png') }}"  /> </a></td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <div class="clearfix"></div>
+
+{% endblock %}
+
+

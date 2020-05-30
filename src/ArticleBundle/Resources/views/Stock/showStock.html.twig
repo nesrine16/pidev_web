@@ -1,0 +1,64 @@
+{% extends "@track/Default/back.html.twig" %}
+
+{% block body %}
+
+    <div class="bs-example widget-shadow" data-example-id="contextual-table">
+        <h3> Détails du stock:</h3>
+
+
+        <table class="table" border="2">
+            <tr>
+                <th>Référence</th>
+                <th>Désignation</th>
+                <th>Seuil minimum</th>
+                <th>Seuil maximum</th>
+                <th>Quantité du stock</th>
+                <th>Etat du stock</th>
+
+
+
+
+            </tr>
+            {% for stock in stocks %}
+
+                <tr>
+
+                    <td>{{ stock.refArticle }}</td>
+                    <td>{{ stock.designation }}</td>
+                    <td>{{ stock.seuilMin }}</td>
+                    <td>{{ stock.seuilMax }}</td>
+                    <td>{{ stock.u }}</td>
+
+                    {% if stock.u < stock.seuilMin %}
+                        {% set color =  "#E40002"  %}
+                    {% elseif stock.u > stock.seuilMax %}
+                        {% set color =  "#dc143c"  %}
+                    {% else %}
+                        {% set color =  "#f0f8ff"  %}
+                    {% endif %}
+
+
+                    <td style="background: {{ color }}" >
+
+                        {% if stock.u < stock.seuilMin %}
+
+                            STOCK ALERTE! Seulement {{ stock.u }} restants
+
+                    {% elseif stock.u > stock.seuilMax %}
+                        SURSTOCKAGE
+                    {% else %}
+                        Stock en sécurité
+                    {% endif %}  </td>
+
+
+
+                </tr>
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <div class="clearfix"></div>
+
+{% endblock %}

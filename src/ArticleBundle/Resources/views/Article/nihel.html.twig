@@ -1,0 +1,105 @@
+{% extends "@track/Default/back.html.twig" %}
+{% block body %}
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style>
+        body
+        {
+            margin:0;
+            padding:0;
+            background-color:#f1f1f1;
+        }
+        .box
+        {
+            width:1000px;
+            padding:20px;
+            background-color:#fff;
+            border:1px solid #ccc;
+            border-radius:5px;
+            margin-top:25px;
+            box-sizing:border-box;
+        }
+    </style>
+</head>
+<body>
+
+
+
+
+<div class="container box">
+    <br />
+    <div class="table-responsive">
+
+        <div align="center">
+            <h2> Listes des articles</h2>
+            <br />
+        </div>
+        <br />
+        <div id="alert_message"></div>
+        <table id="user_data" class="table table-bordered table-striped mydatatable">
+            <thead>
+            <tr>
+                <th>Référence</th>
+                <th>Désignation</th>
+                <th>Code à barres</th>
+                <th>Unité</th>
+                <th>Prix d'achat</th>
+                <th>Prix de vente</th>
+                <th>Seuil minimum</th>
+                <th>Seuil Maximum</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for article in articles %}
+                <tr>
+                    <td>{{ article.refArticle }}</td>
+                    <td>{{ article.designation }}</td>
+                    <td>{{ article.code }}</td>
+                    <td>{{ article.unite }}</td>
+                    <td>{{ article.prixAchat }}</td>
+                    <td>{{ article.prixVente }}</td>
+                    <td>{{ article.seuilMin }}</td>
+                    <td>{{ article.seuilMax }}</td>
+                    <td><a href="{{ path('remove_Article', {'ref_article':article.refArticle}) }}" onclick="return confirm('Etes-vous sûre de supprimer cet article?')"><img src="{{ asset('bundles/track/images/deletee.png') }}" /></a></td>
+
+                    <td><a href="{{ path("update_Article",{'ref_article':article.refArticle})}}"> <img src="{{ asset('bundles/track/images/update.png') }}"  /> </a></td>
+
+                </tr>
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script  src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" ></script>
+    <script  src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+
+
+    <script>
+        $('.mydatatable').DataTable(
+            {
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.20/i18n/French.json"
+                }
+            }
+        );
+    </script>
+</div>
+</body>
+
+</html>
+
+{% endblock %}

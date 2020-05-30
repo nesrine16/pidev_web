@@ -1,0 +1,3 @@
+track_homepage:
+    path:     /
+    defaults: { _controller: trackBundle:Default:index }
