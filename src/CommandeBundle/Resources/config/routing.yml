@@ -68,5 +68,8 @@ allcmd:
 updateCommande:
     path:     /update/{num}/{ref}/{id}
     defaults: { _controller: CommandeBundle:commande:updateCommande}
+mail:
+    path:     /mail2/{to}/{corps}/{obj}
+    defaults: { _controller: CommandeBundle:commande:mail}
 
 

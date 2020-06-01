@@ -168,7 +168,6 @@ class commandeController extends AbstractController
             if ($ligneCommandeExite) {
                 $ligneCommandeExite->setQte($request->get('qte'));
 
-
             }
             else {
                 $ligneCommande = new LigneCommande();
@@ -319,6 +318,23 @@ class commandeController extends AbstractController
         $em->flush();
         $serializer=new Serializer([new ObjectNormalizer()]);
        // $formatted = $serializer->normalize( $cmd);
+        return new JsonResponse("success");
+
+    }
+
+
+
+    public function mailAction(Request $request,$corps,$obj,$to){
+        $em = $this->getDoctrine()->getManager();
+        $message = \Swift_Message::newInstance()
+            ->setSubject($obj)
+            ->setFrom('imen.elabed@esprit.tn','smart truck')
+            ->setTo($to)
+            ->setBody($corps);
+        $this->get('mailer')->send($message);
+
+        $serializer=new Serializer([new ObjectNormalizer()]);
+        // $formatted = $serializer->normalize( $cmd);
         return new JsonResponse("success");
 
     }
