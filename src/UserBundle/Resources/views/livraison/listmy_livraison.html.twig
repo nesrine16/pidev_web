@@ -44,7 +44,7 @@
 
 
                                     <th>Supprimer</th>
-                                    <th>Modifier</th>
+                                    {#<th>Modifier</th>#}
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -54,27 +54,27 @@
                                 {% for livraison in livraisons %}
 
                                     <tr class="rem1">
-                                    <td class="invert">{{ livraison.livreur.nom }}</td>
+                                        <td class="invert">{{ livraison.livreur.nom }}</td>
                                         <td class="invert">{{ livraison.commande.montant }}</td>
 
 
 
-                                    <td class="invert">
-                                        <div class="rem">
-                                            <a href="{{ path("livraison_delete",{'id':livraison.id})}}" ><i
-                                                        class="fa fa-times text-danger"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-
                                         <td class="invert">
+                                            <div class="rem">
+                                                <a href="{{ path("livraison_delete",{'id':livraison.id})}}" ><i
+                                                            class="fa fa-times text-danger"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+
+                                        {#<td class="invert">
                                             <div class="col-sm-10">
                                                 <a href="{{ path("livraison_update",{'id':livraison.id})}}" ><i
                                                             class="fa fa-edit text-success"></i>
                                                 </a>
                                             </div>
                                         </td>
-
+                                        #}
                                     </tr>
                                 {% endfor %}
 

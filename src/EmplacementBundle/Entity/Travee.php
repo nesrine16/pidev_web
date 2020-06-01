@@ -37,6 +37,30 @@ class Travee
     private $allee;
 
     /**
+     * @return mixed
+     */
+    public function getIdEmp()
+    {
+        return $this->idEmp;
+    }
+
+    /**
+     * @param mixed $idEmp
+     */
+    public function setIdEmp($idEmp)
+    {
+        $this->idEmp = $idEmp;
+    }
+
+    /**
+     * @ORM\ManyToOne(targetEntity="EmplacementBundle\Entity\Emplacement")
+     *
+     * @ORM\JoinColumn(name="idEmp", referencedColumnName="id" ,nullable=true, onDelete="SET NULL")
+     */
+
+    private $idEmp;
+
+    /**
      * Get id
      *
      * @return int
