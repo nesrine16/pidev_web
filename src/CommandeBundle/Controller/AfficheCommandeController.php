@@ -46,9 +46,6 @@ class AfficheCommandeController extends AbstractController
     public function editCommandeAction(Request $request){
 
         $numCommande = $request->request->get('numCommande');
-        //$refArticle = $request->request->get('refArticle');
-
-
 
         $em = $this->getDoctrine()->getManager();
         $commande = $em->getRepository(Commande::class)->findBy(array( 'numCommande'=>$numCommande));
@@ -89,11 +86,8 @@ class AfficheCommandeController extends AbstractController
 
     public function mailAction(Request $request){
         $id=$request->get('id');
-        //dump($id);die();
         $em = $this->getDoctrine()->getManager();
         $fournisseur = $em->getRepository('UserBundle:Fournisseur')->find($id);
-        //dump($fournisseur);die();
-
 
 //        if($request->isMethod('POST')){
         $message = \Swift_Message::newInstance()
