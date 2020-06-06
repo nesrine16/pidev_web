@@ -11,12 +11,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use JMS\Serializer\SerializerBuilder;
-
 use UserBundle\Entity\Fournisseur;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
+use JMS\Serializer\SerializerBuilder;
 class commandeController extends AbstractController
 {
 
@@ -271,8 +271,13 @@ class commandeController extends AbstractController
             $em->flush();
 
         }
+
         return new JsonResponse("success");
+
     }
+
+
+
 
     public function getAllCommandeAction()
     {
@@ -295,42 +300,13 @@ class commandeController extends AbstractController
         return new JsonResponse($formatted);
 
     }
-    public function findCommandeAction($num)
-    {
-        $em= $this->getDoctrine()->getManager();
-      //  $serializer = SerializerBuilder::create()->build();
-
-        $cmd = $em->getRepository(Commande::class)->findOneBy(array('numCommande' => $num));
-       // return new JsonResponse("success");
-
-      /*  $normalizer = new ObjectNormalizer();
-        $normalizer->setCircularReferenceLimit(2);
-        $normalizer->setCircularReferenceHandler(function ($cmd) {
-            return $cmd->getIdCommande();
-        });
-      */
-       // $normalizers = array($normalizer);
-       // $serializer = new Serializer($normalizers);
-
-       // $serializer =  $this->get('jms_serializer');
-        //$jsonObject = $serializer->serialize( $cmd, 'json');
-
-       $serializer=new Serializer([new ObjectNormalizer()]);
-        $formatted = $serializer->normalize($cmd);
-       //
-        return new JsonResponse($formatted );
-
-       // return $serializer->serialize($cmd, 'json', SerializationContext::create()->setGroups(array('article')));
-
-
-    }
 
 
     public function updateCommandeAction(Request $request, $num,$ref,$id)
     {
         $em = $this->getDoctrine()->getManager();
         $cmd= $em->getRepository('CommandeBundle:Commande')->findOneBy(array('numCommande' => $num));
-
+//dump($cmd);die();
         $ligne= $em->getRepository('CommandeBundle:Lignecommande')->findOneBy(array('idCommande' => $id, 'refArticle' => $ref));
 
         $ligne->setQte($request->get('qte'));
@@ -340,9 +316,9 @@ class commandeController extends AbstractController
         $cmd->setDateCommande(new \DateTime($request->get('dateCommande')));
 
         $em->flush();
-       // $serializer=new Serializer([new ObjectNormalizer()]);
+        $serializer=new Serializer([new ObjectNormalizer()]);
        // $formatted = $serializer->normalize( $cmd);
-        return new JsonResponse("success" );
+        return new JsonResponse("success");
 
     }
 
@@ -358,11 +334,10 @@ class commandeController extends AbstractController
         $this->get('mailer')->send($message);
 
         $serializer=new Serializer([new ObjectNormalizer()]);
-         $formatted = $serializer->normalize( $message);
-        return new JsonResponse($formatted);
+        // $formatted = $serializer->normalize( $cmd);
+        return new JsonResponse("success");
 
     }
-
 
 
     }
