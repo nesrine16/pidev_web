@@ -22,6 +22,7 @@
             <div class="shop_inner_inf">
                 <div class="privacy about">
                     <div class="checkout-right-basket">
+                        <input  type="text" class="form-control" placeholder="chercher..."   id="cinBox"  >
                         <a href="{{ path("livraison_ajout")}}">Ajouter une nouvelle livraison </a>
                     </div>
                     <h3>Mes<span>Livraison(s) :</span></h3>
@@ -35,7 +36,7 @@
                         {% endif %}
 
                         {% if livraisons|length != 0 %}
-                            <table class="timetable_sub">
+                            <table id ="a" class="timetable_sub">
                                 <thead>
 
                                 <tr>
@@ -44,7 +45,7 @@
 
 
                                     <th>Supprimer</th>
-                                    {#<th>Modifier</th>#}
+                                    <th>Modifier</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -67,14 +68,14 @@
                                             </div>
                                         </td>
 
-                                        {#<td class="invert">
+                                        <td class="invert">
                                             <div class="col-sm-10">
                                                 <a href="{{ path("livraison_update",{'id':livraison.id})}}" ><i
                                                             class="fa fa-edit text-success"></i>
                                                 </a>
                                             </div>
                                         </td>
-                                        #}
+
                                     </tr>
                                 {% endfor %}
 
@@ -94,7 +95,34 @@
         </div>
     </section>
 
+    <script>
+        $('#cinBox').keyup(function(){
+            search_table($(this).val());
+        });
+        function search_table(value){
+            $('#a tr').each(function(){
 
+                var found = 'false';
+                $(this).each(function(){
+                    if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                    {  console.log("okay");
+                        found = 'true';
+                    }
+                });
+                if(found == 'true')
+                {
+                    $(this).show();
+                    $('#a thead tr').show();
+
+                }
+                else
+                {
+                    $(this).hide();
+                    //$('#Agent_table thead tr').show();
+                }
+            });
+        }
+    </script>
 
 
     {#{{ form_end(form) }}#}
@@ -127,4 +155,7 @@
         {% block fos_user_content %}
         {% endblock fos_user_content %}
     </div>
+
+
+
 {% endblock %}
