@@ -1,69 +1,69 @@
 {% extends "@Admin/Default/back.html.twig" %}
 
 {% block body %}
+    <link href="{{ asset('css/style.css')}}" rel="stylesheet">
 
-    <div class="left-ads-display col-lg-9">
-        <div class="row">
+    <div class="bs-example widget-shadow" data-example-id="contextual-table">
+        <div class="container-contact100">
+            <div class="wrap-contact100">
 
+                <form class="contact100-form validate-form" method="post">
 
-            {{ form_start(form) }}
-
-
-
-            <table align="center">
-                <form action="#" method="post">
-                    <div class=" agile-wls-contact-mid">
-
-                        <div class="form-group contact-forms">
+                    <span class="contact100-form-title">Ajouter un nouveau fournisseur</span>
 
 
-                            <label class="control-label">Cin du Fournisseur </label>
-                            {{ form_widget(form.cin,{'attr':{'class':'form-control','placeholder':"Saisir la cin du fournisseur"}}) }}
-                            {{ form_errors(form.cin) }}
-                        </div>
+                    {{ form_start(form) }}
 
-                        <div class="form-group contact-forms">
-                            <label class="control-label">Email du Fournisseur </label>
-                            {{ form_widget(form.email,{'attr':{'class':'form-control','placeholder':"Saisir l email du fournisseur"}}) }}
-                            {{ form_errors(form.email) }}
-                        </div>
-
-                        <div class="form-group contact-forms">
-                            <label class="control-label">Adresse du Fournisseur </label>
-                            {{ form_widget(form.adresse,{'attr':{'class':'form-control','placeholder':"Saisir l adresse du fournisseur"}}) }}
-                            {{ form_errors(form.adresse) }}
-                        </div>
-
-                        <div class="form-group contact-forms">
-                            <label class="control-label">Téléphone du Fournisseur </label>
-                            {{ form_widget(form.telephone,{'attr':{'class':'form-control','placeholder':"Saisir le téléphone du fournisseur"}}) }}
-                            {{ form_errors(form.telephone) }}
-                        </div>
-
-                        <div class="form-group contact-forms">
-                            <label class="control-label">Fax du Fournisseur </label>
-                            {{ form_widget(form.fax,{'attr':{'class':'form-control','placeholder':"Saisir le fax du fournisseur"}}) }}
-                            {{ form_errors(form.fax) }}
-                        </div>
-
-                        <div class="form-group contact-forms">
-                            <label class="control-label">Nom de la societe du Fournisseur </label>
-                            {{ form_widget(form.nomSociete,{'attr':{'class':'form-control','placeholder':"Saisir le nom de la societe du fournisseur"}}) }}
-                            {{ form_errors(form.nomSociete) }}
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-3 col-lg-3 col-sm-12">
-
-                                <button type="submit" class="btn btn-default">Ajouter</button>
-                            </div>
-                        </div>
+                    <label class="input100">Nom societe</label>
+                    <div class="wrap-input100 " >
+                        {{ form_widget(form.nomSociete,{'attr':{'class':'form-control','placeholder':"Saisir le nom de la societe du fournisseur"}}) }}
+                        {{ form_errors(form.nomSociete) }}
+                        <span class="focus-input100"></span>
                     </div>
+
+                    <label class="input100">Cin du fournisseur </label>
+                    <div class="wrap-input100">
+                        {{ form_widget(form.cin,{'attr':{'class':'form-control','placeholder':"Saisir le cin du fournisseur"}}) }}
+                        {{ form_errors(form.cin) }}
+                    </div>
+
+                    <label class="input100">Email du fournisseur </label>
+                    <div class="wrap-input100">
+                        {{ form_widget(form.email,{'attr':{'class':'form-control','placeholder':"Saisir email du fournisseur"}}) }}
+                        {{ form_errors(form.email) }}
+                    </div>
+
+                    <label class="input100">Adresse du fournisseur </label>
+                    <div class="wrap-input100">
+                        {{ form_widget(form.adresse,{'attr':{'class':'form-control','placeholder':"Saisir adresse du fournisseur"}}) }}
+                        {{ form_errors(form.adresse) }}
+                    </div>
+
+                    <label class="input100">Téléphone du fournisseur </label>
+                    <div class="wrap-input100">
+                        {{ form_widget(form.telephone,{'attr':{'class':'form-control','placeholder':"Saisir le téléphone du fournisseur"}}) }}
+                        {{ form_errors(form.telephone) }}
+                    </div>
+
+                    <label class="input100">Fax du fournisseur </label>
+                    <div class="wrap-input100">
+                        {{ form_widget(form.fax,{'attr':{'class':'form-control','placeholder':"Saisir le fax du fournisseur"}}) }}
+                        {{ form_errors(form.fax) }}
+                    </div>
+
+
+                    <div class="container-contact100-form-btn">
+                        <button class="contact100-form-btn">
+						<span>
+							Ajouter
+							<i class="zmdi zmdi-arrow-right m-l-8"></i>
+						</span>
+                        </button>
+                    </div>
+
+                    {{ form_end(form) }}
                 </form>
-            </table>
-
-
-            {{ form_end(form) }}
+            </div>
         </div>
     </div>
 
