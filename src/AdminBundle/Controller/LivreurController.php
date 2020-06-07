@@ -1,10 +1,13 @@
 <?php
 
 namespace AdminBundle\Controller;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use UserBundle\Entity\Livreur;
 use UserBundle\Form\LivreurType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class LivreurController extends Controller
 {
@@ -16,7 +19,7 @@ class LivreurController extends Controller
         $form = $this->createForm(LivreurType::class, $livreur);
         ///Pour recuperer les entrees de la form comme post dans le
         $form->handleRequest($request);
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted()&& $form->isValid()) {
 
             //On recupere l'EntityManager
             $em = $this->getDoctrine()->getManager();
@@ -34,7 +37,6 @@ class LivreurController extends Controller
         return $this->render("@Admin/Livreur/addLivreur.html.twig", array(
             'form' => $form->createView()
         ));
-
     }
 
     public function ajoutLivreurMobAction(Request $request)
@@ -52,17 +54,19 @@ class LivreurController extends Controller
         return new JsonResponse($formatted);
     }
 
-    public function showLivreurAction()
+    public function showLivreurAction(Request $request)
     {
         //create our entity manager: get the service doctrine
-        $em = $this->getDoctrine();
-        //repository help you fetch (read) entities of a certain class.
-        $repository = $em->getRepository(Livreur::class);
-        //find *all* 'Projet' objects
-        $livreurs = $repository->findAll();
-        //render a template with the list of objects
-        return $this->render('@Admin/Livreur/showLivreur.html.twig', array(
-            'livreurs' => $livreurs
+        $em = $this->getDoctrine()->getManager();
+        $dql=" SELECT p FROM UserBundle:Livreur p";
+        $query= $em->createQuery($dql);
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 3)
+        );
+        return $this->render('@Admin/Livreur/showLivreur.html.twig', array("pagination" => $pagination
         ));
     }
 
@@ -134,10 +138,9 @@ class LivreurController extends Controller
         $em->persist($livreur);
         $em->flush();
         return new JsonResponse("success");
-
     }
 
-     public function SearchByNomAction(\Symfony\Component\HttpFoundation\Request $request)
+    public function SearchByNomAction(\Symfony\Component\HttpFoundation\Request $request)
     {
         $code=$request->get('nom');
         $em = $this->getDoctrine()->getManager();
@@ -157,4 +160,5 @@ class LivreurController extends Controller
         $formatted = $serializer->normalize($tasks);
         return new JsonResponse($formatted);
     }
+
 }
