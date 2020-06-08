@@ -7,6 +7,7 @@ use EmplacementBundle\Entity\Allee;
 use EmplacementBundle\Entity\Emplacement;
 use EmplacementBundle\Entity\Travee;
 use EmplacementBundle\Form\AlleeType;
+use GuzzleHttp\Psr7\UploadedFile;
 use http\Env\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,51 +23,86 @@ class AlleeController extends Controller
         $form = $this->createForm(AlleeType::class, $allee);
         $form->handleRequest($request);
         $em = $this->getDoctrine()->getManager();
+//
 
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()  )
+        {
 
-            $em->persist($allee);
-            $em->flush();
-            $nb = $allee->getNbTrav();
-            $niv = $allee->getNiv();
-            $ligne = $allee->getLigne();
-            $id = $em->getRepository(Allee::class)->find($allee->getId());
-            $id = $allee->getId();
+          //  dump(  $form["ligne"]->getData()); die();
+            $object = $this->getDoctrine()->getRepository('EmplacementBundle:Allee')->findByLigne($allee->getLigne());
+          //  dump($object); die();
+            /**
+            * @var \Symfony\Component\HttpFoundation\File\UploadedFile $file
+             */
 
-            for ($i = 1; $i <= $nb; $i++) {
-                for ($j = 1; $j <= $niv; $j++) {
-                    $travee = new Travee();
-                    $emp = new Emplacement();
-                    $travee->setNumTrav($i);
-                    $m = $this->getDoctrine()->getManager();
-                    $idA = $m->getRepository(Allee::class)->find($id);
+            $file= $form['image']->getData();
+            $fileName =md5(uniqid()).'.'.$file->guessExtension();
+            $file->move($this->getParameter('images_directory'),$fileName);
+            $allee->setImage($fileName);
 
-                    $emp->setAllee($idA);
-                    $emp->setIntitule("Allée " . $ligne . " Travée 0" . $i . " Niveau 0" . $j);
-                    $emp->setCodeEmp($ligne . "-0" . $i . " -0" . $j);
-                    $emp->setEtat("Disponible");
-                    $travee->setAllee($idA);
-                    $m->persist($emp);
-                    $m->persist($travee);
-                    $m->flush();
+                $em->persist($allee);
+                $em->flush();
+                $nb = $allee->getNbTrav();
+                $niv = $allee->getNiv();
+                $ligne = $allee->getLigne();
+              //  $id = $em->getRepository(Allee::class)->find($allee->getId());
+                $id = $allee->getId();
+
+                for ($i = 1; $i <= $nb; $i++) {
+                    for ($j = 1; $j <= $niv; $j++) {
+                        $travee = new Travee();
+                        $emp = new Emplacement();
+                        $travee->setNumTrav($i);
+                        $m = $this->getDoctrine()->getManager();
+                        $idA = $m->getRepository(Allee::class)->find($id);
+
+
+
+                        $emp->setAllee($idA);
+                        $emp->setIntitule("Allée " . $ligne . " Travée 0" . $i . " Niveau 0" . $j);
+                        $emp->setCodeEmp($ligne . "-0" . $i . " -0" . $j);
+                        $emp->setEtat("Disponible");
+                        $travee->setAllee($idA);
+                        $m->persist($emp);
+                        $m->persist($travee);
+                        $m->flush();
+
+                        $idEmp =$emp->getId();
+                        $idE = $m->getRepository(Emplacement::class)->find($idEmp);
+                        $travee->setIdEmp($idE);
+                        $m->persist($travee);
+                        $m->flush();
+
+                    }
                 }
-
             }
 
-        }
-        $aa = $em->getRepository("EmplacementBundle:Allee")->findAll();
+
+            $aa = $em->getRepository("EmplacementBundle:Allee")->findAll();
+
+            return $this->render('@Emplacement/Emplacement/AjoutAllee.html.twig', ['form' => $form->createView(), 'aa' => $aa,'aaa'=>$allee]);
 
 
-        return $this->render('@Emplacement/Emplacement/AjoutAllee.html.twig', ['form' => $form->createView(), 'aa' => $aa]);
     }
 
-    public function affichAlleeAction()
+    public function affichAlleeAction(\Symfony\Component\HttpFoundation\Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $allee = $em->getRepository("EmplacementBundle:Allee")->findAll();
+        //$allee = $em->getRepository("EmplacementBundle:Allee")->findAll();
 
-        return $this->render('@Emplacement/Emplacement/AffichAllee.html.twig', array('allee' => $allee));
+        $dql=" SELECT p FROM EmplacementBundle:Allee p";
+        $query= $em->createQuery($dql);
+
+        $paginator = $this->get('knp_paginator');
+
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 3));
+
+        return $this->render('@Emplacement/Emplacement/AffichAllee.html.twig', array('allee' => $pagination));
+
     }
 
 
@@ -129,7 +165,7 @@ class AlleeController extends Controller
         $id = $em->getRepository(Allee::class)->find($allee->getId());
 
 
-        for ($i = 1; $i <= $nb; $i++) {
+        for ($i = 1; $i <=$nb; $i++) {
             for ($j = 1; $j <= $niv; $j++) {
                 $travee = new Travee();
                 $emp = new Emplacement();
@@ -145,6 +181,13 @@ class AlleeController extends Controller
                 $m->persist($emp);
                 $m->persist($travee);
                 $m->flush();
+
+                $idEmp =$emp->getId();
+                $idE = $m->getRepository(Emplacement::class)->find($idEmp);
+                $travee->setIdEmp($idE);
+                $m->persist($travee);
+                $m->flush();
+
             }
 
         }
@@ -187,7 +230,14 @@ class AlleeController extends Controller
                             $emp->setCodeEmp($ligne . "-0" . $i . " -0" . $j);
                             $emp->setEtat("Disponible");
                             $travee->setAllee($idA);
+
                             $m->persist($emp);
+                            $m->persist($travee);
+                            $m->flush();
+
+                            $idEmp =$emp->getId();
+                            $idE = $m->getRepository(Emplacement::class)->find($idEmp);
+                            $travee->setIdEmp($idE);
                             $m->persist($travee);
                             $m->flush();
                         }
@@ -195,25 +245,24 @@ class AlleeController extends Controller
                 }
                 $em->flush();
             }
-            else {
+            else if($tr1>$tr2) {
+
+                $m = $this->getDoctrine()->getManager();
+                $idA = $m->getRepository(Allee::class)->find($id);
+                $nn[] = $this->getListTraveeAction(2,302);
+                /******************************/
+                for ( $i=0;$i<count($nn);$i++ )
+                {
+                   dump($nn[$i]['allee']);
+                   die();
+
+                    $query = $em->createQuery('DELETE FROM EmplacementBundle:Emplacement c WHERE c.id = ?1');
+
+                    $query1 = $em->createQuery('DELETE FROM EmplacementBundle:Travee c WHERE c.idEmp IS NULL');
+                    $query1->execute();
 
 
-
-                $query = $em->createQuery(
-                    'DELETE  FROM EmplacementBundle:Emplacement e
-                    where idAllee in (
-                    Select r FROM EmplacementBundle:Emplacement r
-                  inner  join EmplacementBundle:Travee t
-                    where r.idAllee=t.idAllee and numTrav=$n'  );
-
-
-
-                $qb = $em->createQueryBuilder();
-                $query = $qb->delete('EmplacementBundle:Emplacement d')
-                    ->where('d.idAllee  IN (SELECT d.idAllee FROMEmplacementBundle:Travee  d \
-                  INNER JOIN d.EmplacementBundle:Travee a WHERE   a.numTrav = 2)')
-                 ;
-                $query->execute();
+                }
 
 
 
@@ -224,7 +273,25 @@ class AlleeController extends Controller
         return $this->render('@Emplacement/Emplacement/updateAllee.html.twig', ['form' => $form->createView(), 'aa' => $aa]);
 
     }
+    public function getListTraveeAction($numTrav,$idA)
+    {
+        $ser = new Serializer([new ObjectNormalizer()]);
+        $em = $this->getDoctrine()->getManager();
 
+        $query = $em->createQuery('SELECT u FROM EmplacementBundle:Travee u ,EmplacementBundle:Allee a 
+        WHERE a.id = ?1 AND u.numTrav = ?2 and a.id=u.allee');
+
+
+        $query->setParameter(1, $idA);
+        $query->setParameter(2, $numTrav);
+        $uu = $query->getResult();
+
+        $formated = $ser->normalize($uu);
+
+
+        return new JsonResponse($formated);
+
+    }
 
 
 
@@ -239,15 +306,11 @@ class AlleeController extends Controller
         $ligne=$aa->getLigne();
         $tr1=$aa->getNbTrav();
 
-
-
         $aa->setNbTrav($n);
 
             $em->persist($aa);
             $em->flush();
 
-
-        if($tr1<$n) {
             $em->persist($aa);
             $nv2 = $aa->getNiv();
             {
@@ -267,22 +330,18 @@ class AlleeController extends Controller
                         $m->persist($emp);
                         $m->persist($travee);
                         $m->flush();
+                        $idEmp =$emp->getId();
+                        $idE = $m->getRepository(Emplacement::class)->find($idEmp);
+                        $travee->setIdEmp($idE);
+                        $m->persist($travee);
                     }
-                }
+
             }
             $em->flush();
         }
 
         $ser = new Serializer([new ObjectNormalizer()]);
         $formated = $ser->normalize($aa);
-
-
-
-
-
-
-
-
 
         return new JsonResponse($formated);
 
@@ -318,6 +377,38 @@ class AlleeController extends Controller
         return new JsonResponse($formated);
 
     }
+
+
+    public function mailAction(){
+        //dump($id);die();
+        //dump($fournisseur);die();
+
+//        if($request->isMethod('POST')){
+        $message = \Swift_Message::newInstance()
+            ->setFrom('chaima.besbes2@gmail.com','smart truck')
+            ->setTo('chaima.besbes2@gmail.com')
+            ->setBody('message');
+
+        $this->get('mailer')->send($message);
+        return $this->render('@Emplacement/Emplacement/mail.html.twig');
+
+    }
+
+
+
+    public function getAlleeAction($id)
+    {
+        $all = $this->getDoctrine()->getManager()
+            ->getRepository('EmplacementBundle:Allee')->findByLigne($id);
+        $ser = new Serializer([new ObjectNormalizer()]);
+        $formated = $ser->normalize($all);
+
+        return new JsonResponse($formated);
+
+    }
+
+
+
 
 
 

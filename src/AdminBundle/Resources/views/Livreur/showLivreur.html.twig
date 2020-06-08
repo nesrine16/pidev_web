@@ -2,56 +2,86 @@
 
 {% block body %}
 
-<div class="left-ads-display col-lg-12">
-    <div class="row">
-
-    <h3 style="color: cadetblue"> Liste des Livreurs:</h3>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-        <table class=" table table-striped">
-            <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Ville</th>
-                <th>Téléphone</th>
-                <th>Suppression</th>
-                <th>Modification</th>
-            </tr>
-            </thead>
-            {% for livreur in livreurs %}
-
-                <tr>
-
-                    <td>{{ livreur.nom }}</td>
-                    <td>{{ livreur.prenom }}</td>
-                    <td>{{ livreur.ville }}</td>
-                    <td>{{ livreur.telephone }}</td>
+    <link href="{{ asset('css/table.css')}}" rel="stylesheet">
 
 
-                    <td><a href="{{ path("remove_Livreur",{'id':livreur.id})}}"<i
-                                    class="fa fa-trash text-danger" ></i></td>
+    <div class="bs-example widget-shadow" data-example-id="contextual-table">
+        <h3 style="margin-left: 39%"> Liste des livreurs:</h3>
+        <input  type="text" class="form-control" placeholder="chercher..."   id="cinBox"  >
 
 
-                    <td><a href="{{ path("update_Livreur",{'id':livreur.id})}}"<i
-                                class="fa fa-edit text-success"></i></td>
-                </tr>
-            {% endfor %}
+        <div class="limiter">
+            <div class="container-table100">
+                <div class="wrap-table100">
+                    <div class="table100">
+                        <table id="a" style="margin-top: 2%">
+                            <thead>
+                            <tr class="table100-head">
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Ville</th>
+                                <th>Téléphone</th>
+                                <th>Supprimer </th>
+                                <th>Modifier</th>
 
-        </table>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for livreur in pagination %}
+                            <tr >
+                                <td>{{ livreur.nom }}</td>
+                                <td>{{ livreur.prenom }}</td>
+                                <td>{{ livreur.ville }}</td>
+                                <td>{{ livreur.telephone }}</td>
 
+                                <td><a href="{{ path("remove_Livreur",{'id':livreur.id})}}"><i
+                                                class="fa fa-trash text-danger" ></i> </a></td>
+                                <td><a href="{{ path("update_Livreur",{'id':livreur.id})}}"><i
+                                                class="fa fa-edit text-success"></i></a></td>
 
+                            </tr>
+                            </tbody>
+                            {% endfor %}
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-
+    <div class="navigation text-center">
+        {{ knp_pagination_render(pagination)  }}
+    </div>
 
     <div class="clearfix"></div>
 
-</div>
+    <script>
+        $('#cinBox').keyup(function(){
+            search_table($(this).val());
+        });
+        function search_table(value){
+            $('#a tr').each(function(){
 
+                var found = 'false';
+                $(this).each(function(){
+                    if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                    {  console.log("okay");
+                        found = 'true';
+                    }
+                });
+                if(found == 'true')
+                {
+                    $(this).show();
+                    $('#a thead tr').show();
 
-</div>
-
+                }
+                else
+                {
+                    $(this).hide();
+                }
+            });
+        }
+    </script>
 
 
 {% endblock %}
