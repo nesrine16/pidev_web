@@ -2,54 +2,98 @@
 
 {% block body %}
 
-<div class="left-ads-display col-lg-12">
-    <div class="row">
-
-        <h3 style="color: cadetblue"> Liste des Fournisseurs: </h3>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-        <table class=" table table-striped">
-            <thead>
-            <tr>
-                <th>Cin</th>
-                <th>Email</th>
-                <th>Adresse</th>
-                <th>Téléphone</th>
-                <th>Fax</th>
-                <th>Nom de la societe</th>
-                <th>Suppression</th>
-                <th>Modification</th>
-                <th>Répondre par email</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for fournisseur in fournisseurs %}
-
-                <tr>
-
-                    <td>{{ fournisseur.cin }}</td>
-                    <td>{{ fournisseur.email }}</td>
-                    <td>{{ fournisseur.adresse }}</td>
-                    <td>{{ fournisseur.telephone }}</td>
-                    <td>{{ fournisseur.fax }}</td>
-                    <td>{{ fournisseur.nomSociete }}</td>
+    <link href="{{ asset('css/table.css')}}" rel="stylesheet">
 
 
-                    <td><a href="{{ path("remove_Fournisseur",{'id':fournisseur.id})}}"><i
-                                    class="fa fa-trash text-danger" ></i> </a></td>
-                    <td><a href="{{ path("update_Fournisseur",{'id':fournisseur.id})}}"><i
-                                    class="fa fa-edit text-success"></i></a></td>
-                    <th><a href="{{ path('fournisseur_mail',{'id':fournisseur.id}) }}" onclick="return confirm('envoyer un mail ?')"><i class="fa fa-envelope"></i></a></th>
+    <div class="bs-example widget-shadow" data-example-id="contextual-table">
+        <h3 style="margin-left: 39%"> Liste des fournisseurs:</h3>
+            <input  type="text" class="form-control" placeholder="chercher..."   id="cinBox"  >
 
-                </tr>
-            {% endfor %}
-            </tbody>
 
-        </table>
+        <div class="limiter">
+            <div class="container-table100">
+                <div class="wrap-table100">
+                    <div class="table100">
+                        <table id="a" style="margin-top: 2%">
+                            <thead>
+                            <tr class="table100-head">
+                                <th>Cin</th>
+                                <th>Email</th>
+                                <th>Adresse</th>
+                                <th>Téléphone</th>
+                                <th>Fax</th>
+                                <th>Nom de la societe</th>
 
+                                <th>Supprimer </th>
+                                <th>Modifier</th>
+                                <th>Contact</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for fournisseur in pagination %}
+                            <tr >
+                                <td>{{ fournisseur.cin }}</td>
+                                <td>{{ fournisseur.email }}</td>
+                                <td>{{ fournisseur.adresse }}</td>
+                                <td>{{ fournisseur.telephone }}</td>
+                                <td>{{ fournisseur.fax }}</td>
+                                <td>{{ fournisseur.nomSociete }}</td>
+
+                                <td><a href="{{ path("remove_Fournisseur",{'id':fournisseur.id})}}"><i
+                                                class="fa fa-trash text-danger" ></i> </a></td>
+                                <td><a href="{{ path("update_Fournisseur",{'id':fournisseur.id})}}"><i
+                                                class="fa fa-edit text-success"></i></a></td>
+                                <td><a href="{{ path('fournisseur_mail',{'id':fournisseur.id}) }}" onclick="return confirm('envoyer un mail ?')"><i class="fa fa-envelope"></i></a></td>
+
+
+                            </tr>
+                            </tbody>
+                            {% endfor %}
+                        </table>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="navigation text-center">
+        {{ knp_pagination_render(pagination)  }}
     </div>
 
     <div class="clearfix"></div>
-</div>
-</div>
+
+
+    <script>
+        $('#cinBox').keyup(function(){
+            search_table($(this).val());
+        });
+        function search_table(value){
+            $('#a tr').each(function(){
+
+                var found = 'false';
+                $(this).each(function(){
+                    if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                    {  console.log("okay");
+                        found = 'true';
+                    }
+                });
+                if(found == 'true')
+                {
+                    $(this).show();
+                    $('#a thead tr').show();
+
+                }
+                else
+                {
+                    $(this).hide();
+                    //$('#Agent_table thead tr').show();
+                }
+            });
+        }
+    </script>
+
+
+
 {% endblock %}

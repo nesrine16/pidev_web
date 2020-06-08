@@ -1,8 +1,6 @@
 <?php
 
-
 namespace UserBundle\Controller;
-
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,7 +31,7 @@ class utilisateurController extends Controller
     }
 
 
-      public function showUtilisateurAction()
+    public function showUtilisateurAction()
     {
         $tasks = $this->getDoctrine()->getManager()
             ->getRepository('UserBundle:utilisateur')
@@ -43,9 +41,9 @@ class utilisateurController extends Controller
         return new JsonResponse($formatted);
     }
 
-      public function updateUtilisateurMobileAction(Request $request){
-        $id=$request->get('id');
+    public function updateUtilisateurMobileAction(Request $request, $id){
         $em=$this->getDoctrine()->getManager();
+
         $utilisateur=$em->getRepository("UserBundle:utilisateur")->find($id);
         $utilisateur->setNom($request->get('nom'));
         $utilisateur->setPrenom($request->get('prenom'));
@@ -56,8 +54,7 @@ class utilisateurController extends Controller
         $utilisateur->setUsername($request->get('username'));
         $utilisateur->setPassword($request->get('password'));
 
-            $em->persist($utilisateur);
-            $em->flush();
+        $em->flush();
         $serializer = new Serializer([new ObjectNormalizer()]);
         $formatted = $serializer->normalize($utilisateur);
         return new JsonResponse($formatted);
@@ -87,7 +84,7 @@ class utilisateurController extends Controller
         return new JsonResponse($formatted);
     }
 
-     public function SearchByNomAction(\Symfony\Component\HttpFoundation\Request $request)
+    public function SearchByNomAction(\Symfony\Component\HttpFoundation\Request $request)
     {
 
         $code=$request->get('username');
@@ -139,6 +136,5 @@ class utilisateurController extends Controller
         return $this->render("@Admin/Fournisseur/mailpage.html.twig",array(
             'fournisseur'=>$fournisseur
         ));
-
     }
 }
