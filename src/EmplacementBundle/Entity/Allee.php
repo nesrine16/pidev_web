@@ -3,6 +3,7 @@
 namespace EmplacementBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Allee
@@ -24,6 +25,7 @@ class Allee
      * @var string
      *
      * @ORM\Column(name="ligne", type="string", length=255, unique=true)
+     * @Assert\Length(max="1", maxMessage="La ligne doit comporter un seul caractère de l'alphabet")
      */
     private $ligne;
 
@@ -117,6 +119,26 @@ class Allee
         $this->id = $id;
     }
 
+    /**
+     * @var string
+     * @ORM\Column(name="image",type="string", length=50)
+     *@Assert\Image()
+     * @Assert\NotBlank(message="Ajouter une image jpg")
+     * @Assert\File(mimeTypes={ "image/jpeg" })
+     */
+    private $image;
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
 
 }
 
