@@ -2,7 +2,6 @@
 
 namespace UserBundle\Controller;
 
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -10,11 +9,8 @@ use Symfony\Component\Serializer\Serializer;
 use UserBundle\Entity\Famille;
 use UserBundle\Repository\ArticleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use UserBundle\Entity\Article;
-use Symfony\Component\HttpFoundation\Response;
-use UserBundle\Entity\Commande;
-use UserBundle\Entity\LigneCommande;
+use CommandeBundle\Entity\Article;
+
 
 
 class ArticlesController extends AbstractController
@@ -28,7 +24,7 @@ class ArticlesController extends AbstractController
 
         $codeFamille = $request->query->get('famille');
         if($codeFamille != ''){
-            $query = $this->getDoctrine()->getRepository(Article::class)->findBy(array('Famille'=>$codeFamille));
+            $query = $this->getDoctrine()->getRepository(Article::class)->findBy(array('famille'=>$codeFamille));
         }
         else{
             $query = $this->getDoctrine()->getRepository(Article::class)->findAll();
@@ -50,18 +46,20 @@ class ArticlesController extends AbstractController
      * Fonction rechercher mobile
      */
     public function recherFamilleAction($famille)
-    {   $entityManager = $this->getDoctrine()->getManager();
+
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
         $listarticle=$entityManager->createQuery(
-            "SELECT  a
+          /*  "SELECT  a
             FROM UserBundle:Article a
             Left JOIN UserBundle:Famille f
             WITH a.Famille = f.codeFamille
             where f.nomFamille = nomf "
-        )
-            ->setParameter('nomf', $famille);
+        )*/
 
-         /*   "select Famille.nomFamille from Article
-             inner join famille on Famille.codeFamille=article.famille "*/
+            "select Famille.nomFamille from Article
+             inner join famille on Famille.codeFamille=article.famille ");
 
 
 
@@ -74,7 +72,7 @@ class ArticlesController extends AbstractController
     public function testAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $rep=$em->getRepository("UserBundle:Article")->findAll();
+        $rep=$em->getRepository("CommandeBundle:Article")->findAll();
         $serializer = new Serializer([new ObjectNormalizer()]);
         $formatted = $serializer->normalize($rep);
         return new JsonResponse($formatted);
