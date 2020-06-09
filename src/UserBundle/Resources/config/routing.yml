@@ -42,9 +42,15 @@ voir_commande_apres_validation:
     path:     /voir-commande/{id}
     defaults: { _controller: UserBundle:Panier:voirCommande }
 
+
+
+
 map:
     path:     /map
     defaults: { _controller: UserBundle:Default:map }
+
+
+
 list_art:
     path:     /list
     defaults: { _controller: UserBundle:Articles:test }
@@ -55,36 +61,70 @@ list_art_par_famille:
     defaults: { _controller: UserBundle:Articles:recherFamille }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 commande:
     path:     /commandemobile
     defaults: { _controller: UserBundle:Commande:commande }
-utilisateur_ajout:
-    path:     /ajoututilisateur
-    defaults: { _controller: UserBundle:utilisateur:ajoutUtilisateur }
-show_Utilisateur:
-    path:     /showutilisateur
-    defaults: { _controller: UserBundle:utilisateur:showUtilisateur }
-update:
-    path:     /updateutilisateur
-    defaults: { _controller: UserBundle:utilisateur:updateUtilisateurMobile}
-searchuser:
-    path:     /searchuser/{username}
-    defaults: { _controller: UserBundle:utilisateur:SearchByNom}
-userUserPwd:
-    path:     /getuserpwd/{username}/{password}
-    defaults: { _controller: UserBundle:utilisateur:getUserByUsernamePassword}
-userId:
-    path:     /getuserid/{id}
-    defaults: { _controller: UserBundle:utilisateur:getUserById}
-delete_user:
-    path:     /deleteuser
-    defaults: { _controller: UserBundle:utilisateur:deleteUtilisateur}
-login:
-    path:     /login/{username}/{password}
-    defaults: { _controller: UserBundle:Default:login}
-forgetPassword:
-    path:     /forget/{username}
-    defaults: { _controller: UserBundle:Default:forgetPassword}
-mail:
-    path:     /composemail/{id}/{password}
-    defaults: { _controller: UserBundle:utilisateur:mail }
+
+ajoutcommande:
+    path:     /ajoutcommandeclient/{ref}/{qte}
+    defaults: { _controller: UserBundle:CommandeClient:ajoutCommandeClient }
+
+paniermobile1:
+    path:     /paniermobile
+    defaults: { _controller: UserBundle:Panier:paniermobile }
+
+updatecommande:
+    path:     /updatecommandemobile/{ref}/{qte}
+    defaults: { _controller: UserBundle:CommandeClient:updateqte }
+
+listecommande:
+    path:     /listecommandeclient
+    defaults: { _controller: UserBundle:CommandeClient:lastCmd }
+
+deletecommande:
+    path:     /deletecommandeclient/{ref}
+    defaults: { _controller: UserBundle:CommandeClient:deleteLigneclient}
+
+
+admincommandes:
+    path:     /AllCommandeclients
+    defaults: { _controller: UserBundle:CommandeClient:getAllCommandeclients }
+
+admincommandesupdate:
+    path:     /updatecommandesclient/{id}/{date}/{etat}/{num}
+    defaults: { _controller: UserBundle:CommandeClient:updateCommandeclient }
+
+usermobile:
+    path:     /usermobile
+    defaults: { _controller: UserBundle:CommandeClient:getuser }
+
+deletecommandeclient:
+    path:     /admin_deletecommandeclient/{id}
+    defaults: { _controller: UserBundle:CommandeClient:deletecommandeclient}
+
+
+findCommande:
+    path:     /findCommandeee/{id}
+    defaults: { _controller: UserBundle:CommandeClient:findCommande}
+
+
+SearchByNomFamille:
+    path:     /SearchByNomFamille/{nomFamille}
+    defaults: { _controller: UserBundle:CommandeClient:SearchByNomFamille}
+send_mail:
+    path:      /mail2/{corps}/{obj}/{to}
+    defaults: { _controller: UserBundle:CommandeClient:mailMobile }
