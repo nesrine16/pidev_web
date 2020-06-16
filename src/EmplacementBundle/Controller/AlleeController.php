@@ -5,8 +5,10 @@ namespace EmplacementBundle\Controller;
 use EmplacementBundle\EmplacementBundle;
 use EmplacementBundle\Entity\Allee;
 use EmplacementBundle\Entity\Emplacement;
+use EmplacementBundle\Entity\Image;
 use EmplacementBundle\Entity\Travee;
 use EmplacementBundle\Form\AlleeType;
+use EmplacementBundle\Form\ImageType;
 use GuzzleHttp\Psr7\UploadedFile;
 use http\Env\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -20,8 +22,13 @@ class AlleeController extends Controller
     public function ajoutAlleeAction(\Symfony\Component\HttpFoundation\Request $request)
     {
         $allee = new Allee();
+        $image =new Image();
         $form = $this->createForm(AlleeType::class, $allee);
         $form->handleRequest($request);
+
+        $form2 = $this->createForm(ImageType::class, $image);
+        $form2->handleRequest($request);
+
         $em = $this->getDoctrine()->getManager();
 //
 
@@ -36,12 +43,16 @@ class AlleeController extends Controller
             * @var \Symfony\Component\HttpFoundation\File\UploadedFile $file
              */
 
-            $file= $form['image']->getData();
+            $file= $form2['image']->getData();
             $fileName =md5(uniqid()).'.'.$file->guessExtension();
             $file->move($this->getParameter('images_directory'),$fileName);
+            $image->setImage($fileName);
             $allee->setImage($fileName);
 
-                $em->persist($allee);
+            $em->persist($image);
+
+
+            $em->persist($allee);
                 $em->flush();
                 $nb = $allee->getNbTrav();
                 $niv = $allee->getNiv();
@@ -56,7 +67,6 @@ class AlleeController extends Controller
                         $travee->setNumTrav($i);
                         $m = $this->getDoctrine()->getManager();
                         $idA = $m->getRepository(Allee::class)->find($id);
-
 
 
                         $emp->setAllee($idA);
@@ -81,7 +91,8 @@ class AlleeController extends Controller
 
             $aa = $em->getRepository("EmplacementBundle:Allee")->findAll();
 
-            return $this->render('@Emplacement/Emplacement/AjoutAllee.html.twig', ['form' => $form->createView(), 'aa' => $aa,'aaa'=>$allee]);
+            return $this->render('@Emplacement/Emplacement/AjoutAllee.html.twig', ['form' => $form->createView(), 'aa' => $aa,'aaa'=>$allee,
+                'form2' => $form2->createView()] );
 
 
     }

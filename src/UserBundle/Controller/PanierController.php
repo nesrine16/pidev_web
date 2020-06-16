@@ -3,7 +3,11 @@
 namespace UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use CommandeBundle\Entity\Article;
 use UserBundle\Entity\Commande;
 use UserBundle\Entity\LigneCommande;
 
@@ -75,4 +79,40 @@ class PanierController extends AbstractController
             'commande'=> $commande
         ));
     }
+
+
+
+    public function showarticleAction(Article $article)
+    {
+        return $this->render('@User/articles/show.html.twig', array(
+            'article' => $article,
+        ));
+    }
+
+
+
+/**
+ * fonction mobile
+ */
+
+
+    public function paniermobileAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $commande = $em->getRepository(Commande::class)->findOneBy(array('user'=>$this->getUser(), 'etat'=> 'en cours'));
+
+        return $this->render('@User/panier/panier.html.twig', array(
+            'commande'=> $commande
+        ));
+
+        $serializer = new Serializer([new ObjectNormalizer()]);
+        $formatted = $serializer->normalize($rep);
+        return new JsonResponse($formatted);
+    }
+
+
+
+
+
+
 }
