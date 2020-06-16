@@ -1,22 +1,22 @@
 {% extends "@track/Default/back.html.twig" %}
-
 {% block body %}
 
-    <div class="left-ads-display col-lg-5">
-        <div class="row">
+    <link href="{{ asset('css/style.css')}}" rel="stylesheet">
 
-
-            {{ form_start(form) }}
+    <div class="bs-example widget-shadow" data-example-id="contextual-table">
 
 
 
-            <table align="center">
-                <form action="#" method="post">
-                    <div class=" agile-wls-contact-mid">
+        <div class="container-contact100">
+            <div class="wrap-contact100">
+                <form class="contact100-form validate-form" method="post">
+    <span class="contact100-form-title">
+					Ajouter un article
+				</span>
+
+                    {{ form_start(form, { 'noalidate':'novalidate'}) }}
 
                         <div class="form-group contact-forms">
-
-
                             <label class="control-label">Référence de l'article </label>
                             {{ form_widget(form.refArticle,{'attr':{'class':'form-control','placeholder':"Saisir la reference de l'article"}}) }}
                             {{ form_errors(form.refArticle) }}
@@ -90,7 +90,16 @@
 
 
             {{ form_end(form) }}
+            </form>
         </div>
     </div>
+
+
+    </div>
+
+
+
+
+
 
 {% endblock %}
