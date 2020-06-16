@@ -2,17 +2,32 @@
 {% extends "@Admin/Default/back.html.twig" %}
 
 {% block body %}
+<style>
+    label {
+        display: inline-block;
+        width: 140px;
+        text-align: right;
+    }​
+</style>
     <link href="{{ asset('css/table.css')}}" rel="stylesheet">
 
 
     <div class="bs-example widget-shadow" data-example-id="contextual-table">
         <h3 style="margin-left: 39%"> Liste des palettes</h3>
+        <br/>
+     <div class="block">
+           <label> Recherche: </label>
+           <input  type="text"  placeholder="Chercher..."  id="cinBox"   >
 
-            <div class="limiter">
+       </div>
+
+
+
+        <div class="limiter">
                 <div class="container-table100">
                     <div class="wrap-table100">
                         <div class="table100">
-                            <table style="margin-top: 2%">
+                            <table style="margin-top: 2%" id="a">
                                 <thead>
              <tr class="table100-head">
 
@@ -23,9 +38,10 @@
                 <th>Référence article</th>
                 <th>Emplacement</th>
                 <th></th>
-                <th></th>
+                 <th> </th>
 
-            </tr>
+
+             </tr>
                                 </thead>
                                 <tbody>
             {% for palette in pagination %}
@@ -37,18 +53,22 @@
                     <td>{% if palette.dateExpiration %}{{ palette.dateExpiration|date('Y-m-d') }}{% endif %}</td>
                     <td>{{ palette.refArticle }}</td>
                     <td>{{ palette.codeEmp }}</td>
-
-                    <td>
+<td>
+    <a href="{{ path('palette_pdf', {'id': palette.numLot }) }}"> <i class="glyphicon glyphicon-file"></i>
+            </a>
+</td>
+   <td>
 
                         <a href="{{ path("palette_delete",{'numLot':palette.numLot})}}" onclick="return confirm('Voulez-vous vraiment supprimer cette palette?')">
                             <i
                                     class="fa fa-times text-danger"></i>
                         </a>
-                        </td>
+                    </td>
 
                     <td> <a href="{{ path('palette_edit', { 'numLot': palette.numLot }) }}">
                         <i class="fa fa-pencil"></i>
-                        </a></td>
+                        </a>
+                    </td>
 
                 </tr>
                                 </tbody>
@@ -69,5 +89,32 @@
 
 
 
+        <script>
+            $('#cinBox').keyup(function(){
+                search_table($(this).val());
+            });
+            function search_table(value){
+                $('#a tr').each(function(){
 
+                    var found = 'false';
+                    $(this).each(function(){
+                        if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                        {  console.log("okay");
+                            found = 'true';
+                        }
+                    });
+                    if(found == 'true')
+                    {
+                        $(this).show();
+                        $('#a thead tr').show();
+
+                    }
+                    else
+                    {
+                        $(this).hide();
+                        //$('#Agent_table thead tr').show();
+                    }
+                });
+            }
+        </script>
 {% endblock %}
