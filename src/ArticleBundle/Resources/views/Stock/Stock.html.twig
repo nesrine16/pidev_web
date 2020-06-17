@@ -5,13 +5,13 @@
     <div class="bs-example widget-shadow" data-example-id="contextual-table">
     <h3 style="margin-left: 45%; "> Liste des articles </h3>
 
-        <table style="margin-top: 2%" id="a">
+    <table style="margin-top: 2%" id="a">
 
-            <div class="block">
-                <label> Recherche: </label>
-                <input  type="text"  placeholder=" Chercher..."  id="cinBox"   >
+    <div class="block">
+        <label> Recherche: </label>
+        <input  type="text"  placeholder=" Chercher..."  id="cinBox"   >
 
-            </div>
+    </div>
 
     <div class="limiter">
     <div class="container-table100">
@@ -20,56 +20,51 @@
             <table id = "a" style="margin-top: 2%">
                 <thead>
                 <tr class="table100-head">
-
+            <tr >
                 <th>Référence</th>
                 <th>Désignation</th>
-                <th>Code à barres</th>
-                <th>Unité</th>
-                <th>Prix d'achat</th>
-                <th>Prix de vente</th>
                 <th>Seuil minimum</th>
-                <th>Seuil Maximum</th>
-                    <th> </th>
-
-
-                    <th></th>
+                <th>Seuil maximum</th>
+                <th>Quantité du stock</th>
+                <th>Etat du stock</th>
 
                 </tr>
                 </thead>
                 <tbody>
 
+            {% for stock in stocks %}
+                <tr >
 
-                {% for article in articles %}
-                <tr>
-                    <td>{{ article.refArticle }}</td>
-                    <td>{{ article.designation }}</td>
-                    <td>{{ article.code }}</td>
-                    <td>{{ article.unite }}</td>
-                    <td>{{ article.prixAchat }}</td>
-                    <td>{{ article.prixVente }}</td>
-                    <td>{{ article.seuilMin }}</td>
-                    <td>{{ article.seuilMax }}</td>
+                    <td>{{ stock.refArticle }}</td>
+                    <td>{{ stock.designation }}</td>
+                    <td>{{ stock.seuilMin }}</td>
+                    <td>{{ stock.seuilMax }}</td>
+                    <td>{{ stock.u }}</td>
 
-
-                    <td> <a href="{{ path("update_Article",{'ref_article':article.refArticle})}}">
-                            <i class="fa fa-pencil"></i>
-                        </a></td>
-
-                    <td>
-
-                        <a href="{{ path('remove_Article', {'ref_article':article.refArticle}) }}" onclick="return confirm('Voulez-vous vraiment supprimer cet article?')">
-                            <i
-                                    class="fa fa-times text-danger"></i>
-                        </a>
-                    </td>
+                    {% if stock.u < stock.seuilMin %}
+                        {% set color =  "#E40002"  %}
+                    {% elseif stock.u > stock.seuilMax %}
+                        {% set color =  "#dc143c"  %}
+                    {% else %}
+                        {% set color =  "#f0f8ff"  %}
+                    {% endif %}
 
 
+                    <td style="background: {{ color }}" >
+
+                        {% if stock.u < stock.seuilMin %}
+
+                            STOCK ALERTE! Seulement {{ stock.u }} restants
+
+                        {% elseif stock.u > stock.seuilMax %}
+                            SURSTOCKAGE
+                        {% else %}
+                            Stock en sécurité
+                        {% endif %}  </td>
 
 
 
-                    </td>
-
-                </tr>
+            </tr>
 
                 </tbody>
                 {% endfor %}
@@ -88,7 +83,7 @@
 
 
     <div class="navigation text-center">
-        {{ knp_pagination_render(articles) }}
+        {{ knp_pagination_render(stocks) }}
     </div>
 
     <div class="clearfix"></div>
